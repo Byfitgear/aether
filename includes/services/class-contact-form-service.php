@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) { exit; }
 
 class Aether_Contact_Form_Service extends Aether_Base
 {
-    const SUBMISSIONS_TABLE = 'wp_aether_contact_submissions';
+    const SUBMISSIONS_TABLE = 'aether_contact_submissions';
 
     protected function init()
     {
@@ -14,6 +14,8 @@ class Aether_Contact_Form_Service extends Aether_Base
         add_action('rest_api_init', [$this, 'register_rest_routes']);
         add_action('admin_menu', [$this, 'add_admin_menu']);
         add_action('admin_post_aether_export_submissions', [$this, 'handle_export']);
+        add_action('wp_ajax_aether_mark_read', [$this, 'ajax_mark_read']);
+        add_action('wp_ajax_aether_delete_submission', [$this, 'ajax_delete_submission']);
     }
 
     public function load_textdomain()
@@ -251,6 +253,7 @@ class Aether_Contact_Form_Service extends Aether_Base
     public function ajax_mark_read()
     {
         check_ajax_referer('aether_nonce', 'nonce', false);
+        if (!current_user_can('edit_posts')) wp_die();
         $id = intval($_POST['id'] ?? 0);
         if (!$id) wp_die();
         global $wpdb;
@@ -363,7 +366,9 @@ class Aether_Contact_Form_Service extends Aether_Base
         register_rest_route('aether/v1', '/contact/submit', [
             'methods' => WP_REST_Server::CREATABLE,
             'callback' => [$this, 'rest_submit'],
-            'permission_callback' => '__return_true',
+            'permission_callback' => function() {
+                return true; // 允许未登录用户提交，速率限制在 rest_submit 中处理
+            },
         ]);
     }
 
@@ -380,6 +385,17 @@ class Aether_Contact_Form_Service extends Aether_Base
 
     public function rest_submit($request)
     {
+        // 速率限制：同一IP每分钟最多提交5次
+        $rate_limit_key = 'aether_rate_' . md5($_SERVER['REMOTE_ADDR'] ?? '');
+        $recent = get_transient($rate_limit_key);
+        if ($recent !== false && (int)$recent >= 5) {
+            return new WP_REST_Response([
+                'success' => false,
+                'message' => __('提交过于频繁，请稍后再试。', 'aether'),
+            ], 429);
+        }
+        set_transient($rate_limit_key, (int)$recent + 1, 60);
+
         $data = $request->get_json_params();
         $settings = Aether_Settings_Service::get_all();
         $fields = $settings['contact_form_fields'] ?? [];

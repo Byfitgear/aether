@@ -49,6 +49,18 @@ class Aether_Settings extends Aether_Base
             wp_send_json_error(['message' => __('权限不足', 'aether')]);
         }
         $settings = $_POST['settings'] ?? [];
+        $allowed_keys = array_keys(Aether_Settings_Service::get_defaults());
+        $sanitized = [];
+        foreach ($settings as $key => $value) {
+            if (in_array($key, $allowed_keys, true)) {
+                if (is_array($value)) {
+                    $sanitized[$key] = array_map(function($v) { return is_string($v) ? sanitize_text_field($v) : (bool)$v; }, $value);
+                } else {
+                    $sanitized[$key] = is_string($value) ? sanitize_text_field($value) : (bool)$value;
+                }
+            }
+        }
+        $settings = $sanitized;
         $result = Aether_Settings_Service::save($settings);
         if ($result === true) {
             wp_send_json_success([

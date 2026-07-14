@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class Aether_field-discovery-api extends Aether_Base { protected function init() {} }
+class Aether_Field_Discovery_API extends Aether_Base { protected function init() {} }

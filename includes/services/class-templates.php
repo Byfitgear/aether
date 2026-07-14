@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class Aether_templates extends Aether_Base { protected function init() {} }
+class Aether_Templates extends Aether_Base { protected function init() {} }

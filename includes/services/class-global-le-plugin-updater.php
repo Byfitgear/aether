@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class Aether_global-le-plugin-updater extends Aether_Base { protected function init() {} }
+class Aether_Global_Le_Plugin_Updater extends Aether_Base { protected function init() {} }

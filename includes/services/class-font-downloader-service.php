@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class Aether_font-downloader-service extends Aether_Base { protected function init() {} }
+class Aether_Font_Downloader_Service extends Aether_Base { protected function init() {} }

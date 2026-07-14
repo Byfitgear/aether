@@ -105,6 +105,10 @@ class Aether
         if (!get_option('aether_version')) {
             update_option('aether_version', AETHER_VERSION);
         }
+        // 创建联系表单数据表
+        if (class_exists('Aether_Contact_Form_Service')) {
+            Aether_Contact_Form_Service::install();
+        }
     }
 
     public function deactivate()

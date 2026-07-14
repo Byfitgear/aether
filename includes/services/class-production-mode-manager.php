@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class Aether_production-mode-manager extends Aether_Base { protected function init() {} }
+class Aether_Production_Mode_Manager extends Aether_Base { protected function init() {} }

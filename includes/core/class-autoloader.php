@@ -58,6 +58,11 @@ class Aether_Autoloader
         'Aether_HTML_Optimization_Service' => 'includes/services/html/class-html-optimization-service.php',
         'Aether_HTML_Render_Filter' => 'includes/services/html/class-html-render-filter.php',
         'Aether_Contact_Form_Service' => 'includes/services/class-contact-form-service.php',
+        // Additional service classes
+        'Aether_AI_Stream_Handler' => 'includes/api/class-AI_Stream_Handler.php',
+        'Aether_Template_Category' => 'includes/services/template/templates/class-template-category.php',
+        'Aether_Template_Date' => 'includes/services/template/templates/class-template-date.php',
+        'Aether_Template_Home' => 'includes/services/template/templates/class-template-home.php',
     ];
 
     public static function register()

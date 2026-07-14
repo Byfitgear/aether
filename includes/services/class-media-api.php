@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class Aether_media-api extends Aether_Base { protected function init() {} }
+class Aether_Media_API extends Aether_Base { protected function init() {} }
