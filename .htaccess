@@ -1,0 +1,10 @@
+# Protect plugin files
+<Files "*.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+# Except main plugin file
+<Files "wordexpress.php">
+    Order Allow,Deny
+    Allow from all
+</Files>

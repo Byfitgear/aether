@@ -1,0 +1,8 @@
+/* WordExpress Settings Page Styles */
+#wordexpress-settings-msg { font-size: 14px; }
+.we-cf-field-row { background: #fafafa; }
+.we-cf-field-row:hover { background: #f0f0f0; }
+#we-add-field { margin-top: 8px; }
+.we-remove-field { border: none; background: none; cursor: pointer; }
+.wrap h3 { margin-top: 24px; margin-bottom: 12px; }
+.form-table th h3 { margin-top: 0; }
