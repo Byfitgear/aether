@@ -1,14 +1,14 @@
 <?php
 defined('ABSPATH') || exit;
 
-class WordExpress_API_Routes_Auth extends WordExpress_API_Routes_Base
+class Aether_API_Routes_Auth extends Aether_API_Routes_Base
 {
     public function register_routes()
     {
         $this->register_route('/auth/nonce', [
             'methods' => WP_REST_Server::READABLE,
             'callback' => [$this, 'get_rest_nonce'],
-            'permission_callback' => [WordExpress_Permission_Service::class, 'check_rest_permission'],
+            'permission_callback' => [Aether_Permission_Service::class, 'check_rest_permission'],
         ]);
     }
 

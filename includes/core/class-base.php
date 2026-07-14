@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-abstract class WordExpress_Base
+abstract class Aether_Base
 {
     private static $instances = [];
 
@@ -23,25 +23,25 @@ abstract class WordExpress_Base
 
     protected function get_plugin_url($path = '')
     {
-        return WORDEXPRESS_URL . $path;
+        return AETHER_URL . $path;
     }
 
     protected function get_plugin_path($path = '')
     {
-        return WORDEXPRESS_PATH . $path;
+        return AETHER_PATH . $path;
     }
 
     protected function get_asset_version($file_path)
     {
-        $dev_mode = defined('WORDEXPRESS_DEV_MODE') && constant('WORDEXPRESS_DEV_MODE');
+        $dev_mode = defined('AETHER_DEV_MODE') && constant('AETHER_DEV_MODE');
         if ($dev_mode) {
             return time();
         }
         if (empty($file_path)) {
-            return WORDEXPRESS_VERSION;
+            return AETHER_VERSION;
         }
-        $full_path = WORDEXPRESS_PATH . $file_path;
-        $version = WORDEXPRESS_VERSION;
+        $full_path = AETHER_PATH . $file_path;
+        $version = AETHER_VERSION;
         if (file_exists($full_path)) {
             $file_time = filemtime($full_path);
             if ($file_time !== false) {

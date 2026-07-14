@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-class WordExpress_Editor_Page_Base extends WordExpress_Base
+class Aether_Editor_Page_Base extends Aether_Base
 {
     protected function init()
     {
@@ -12,17 +12,17 @@ class WordExpress_Editor_Page_Base extends WordExpress_Base
     {
         $post = get_post($post_id);
         if (!$post) {
-            wp_die(__('无效的文章 ID。', 'wordexpress'));
+            wp_die(__('无效的文章 ID。', 'aether'));
         }
-        if (!WordExpress_Permission_Service::can_edit_post($post_id)) {
-            wp_die(__('文章不存在或您没有权限编辑。', 'wordexpress'));
+        if (!Aether_Permission_Service::can_edit_post($post_id)) {
+            wp_die(__('文章不存在或您没有权限编辑。', 'aether'));
         }
         return $post;
     }
 
     protected function check_api_token()
     {
-        $token = WordExpress_Settings_Service::get('api_token');
+        $token = Aether_Settings_Service::get('api_token');
         if (empty($token)) {
             return false;
         }

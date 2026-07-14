@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class WordExpress_Smart_CSS_Compiler_Service extends WordExpress_Base { protected function init() {} }
+class Aether_Smart_CSS_Compiler_Service extends Aether_Base { protected function init() {} }

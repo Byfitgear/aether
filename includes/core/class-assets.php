@@ -1,15 +1,15 @@
 <?php
 defined('ABSPATH') || exit;
 
-class WordExpress_Assets extends WordExpress_Base
+class Aether_Assets extends Aether_Base
 {
     protected function init() {}
 
     public function enqueue_editor_assets()
     {
-        $manifest_path = WORDEXPRESS_PATH . 'dist/1.0.0/manifest.json';
+        $manifest_path = AETHER_PATH . 'dist/1.0.0/manifest.json';
         if (!file_exists($manifest_path)) {
-            $manifest_path = WORDEXPRESS_PATH . 'dist/manifest.json';
+            $manifest_path = AETHER_PATH . 'dist/manifest.json';
         }
         if (!file_exists($manifest_path)) return;
 
@@ -23,12 +23,12 @@ class WordExpress_Assets extends WordExpress_Base
 
         if (isset($asset['css'])) {
             foreach ($asset['css'] as $css) {
-                wp_enqueue_style('wordexpress-editor-css', $url . $css, [], file_exists($dir . $css) ? filemtime($dir . $css) : WORDEXPRESS_VERSION);
+                wp_enqueue_style('aether-editor-css', $url . $css, [], file_exists($dir . $css) ? filemtime($dir . $css) : AETHER_VERSION);
             }
         }
-        wp_enqueue_script('wordexpress-editor', $url . $asset['file'], [], file_exists($dir . $asset['file']) ? filemtime($dir . $asset['file']) : WORDEXPRESS_VERSION, true);
+        wp_enqueue_script('aether-editor', $url . $asset['file'], [], file_exists($dir . $asset['file']) ? filemtime($dir . $asset['file']) : AETHER_VERSION, true);
         add_filter('script_loader_tag', function($tag, $handle) {
-            if ($handle === 'wordexpress-editor') return str_replace('<script', '<script type="module"', $tag);
+            if ($handle === 'aether-editor') return str_replace('<script', '<script type="module"', $tag);
             return $tag;
         }, 10, 2);
         wp_enqueue_media();

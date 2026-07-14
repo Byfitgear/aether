@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-class WordExpress_Editor_Content extends WordExpress_Base
+class Aether_Editor_Content extends Aether_Base
 {
     protected function init()
     {
@@ -19,8 +19,8 @@ class WordExpress_Editor_Content extends WordExpress_Base
         global $post;
         if (!$post) return $content;
 
-        // Skip if not a wordexpress-edited post
-        if (get_post_meta($post->ID, '_wordexpress_edited', true) !== '1') {
+        // Skip if not a aether-edited post
+        if (get_post_meta($post->ID, '_aether_edited', true) !== '1') {
             return $content;
         }
 

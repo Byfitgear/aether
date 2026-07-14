@@ -1,4 +1,4 @@
-// WordExpress Settings Page JS
+// Aether Settings Page JS
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('WordExpress Settings loaded v' + (typeof wordexpressSettings !== 'undefined' ? wordexpressSettings.version : ''));
+    console.log('Aether Settings loaded v' + (typeof aetherSettings !== 'undefined' ? aetherSettings.version : ''));
 });

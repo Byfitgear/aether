@@ -1,9 +1,9 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
 
-class WordExpress_Settings_Service
+class Aether_Settings_Service
 {
-    const OPTION_NAME = 'wordexpress_settings';
+    const OPTION_NAME = 'aether_settings';
 
     public static function get_all()
     {
@@ -87,16 +87,16 @@ class WordExpress_Settings_Service
         }
         return [
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('wordexpress-settings'),
+            'nonce' => wp_create_nonce('aether-settings'),
             'settings' => self::get_all(),
             'post_types' => $result,
             'messages' => [
-                'save_success' => __('设置已保存', 'wordexpress'),
-                'save_error' => __('保存失败，请重试', 'wordexpress'),
-                'save_unchanged' => __('设置未发生变化', 'wordexpress'),
-                'reset_success' => __('设置已重置为默认值', 'wordexpress'),
-                'reset_error' => __('重置失败，请重试', 'wordexpress'),
-                'reset_confirm' => __('确定要重置所有设置为默认值吗？', 'wordexpress'),
+                'save_success' => __('设置已保存', 'aether'),
+                'save_error' => __('保存失败，请重试', 'aether'),
+                'save_unchanged' => __('设置未发生变化', 'aether'),
+                'reset_success' => __('设置已重置为默认值', 'aether'),
+                'reset_error' => __('重置失败，请重试', 'aether'),
+                'reset_confirm' => __('确定要重置所有设置为默认值吗？', 'aether'),
             ]
         ];
     }
@@ -104,7 +104,7 @@ class WordExpress_Settings_Service
     public static function get_available_post_types()
     {
         $post_types = get_post_types(['public' => true], 'objects');
-        $excluded_types = ['attachment', 'wordexpress_template'];
+        $excluded_types = ['attachment', 'aether_template'];
         $available = [];
         foreach ($post_types as $pt) {
             if (is_object($pt) && !in_array($pt->name, $excluded_types)) {

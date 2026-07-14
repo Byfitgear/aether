@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-class WordExpress_PHP_Processor
+class Aether_PHP_Processor
 {
     private static $instance = null;
 
@@ -23,8 +23,8 @@ class WordExpress_PHP_Processor
         global $post;
         if (!$post) return $content;
 
-        // Only process if wordexpress edited
-        if (get_post_meta($post->ID, '_wordexpress_edited', true) !== '1') {
+        // Only process if aether edited
+        if (get_post_meta($post->ID, '_aether_edited', true) !== '1') {
             return $content;
         }
 
@@ -38,4 +38,4 @@ class WordExpress_PHP_Processor
         return $content;
     }
 }
-WordExpress_PHP_Processor::get_instance();
+Aether_PHP_Processor::get_instance();

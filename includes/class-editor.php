@@ -1,18 +1,18 @@
 <?php
 defined('ABSPATH') || exit;
 
-class WordExpress_Editor extends WordExpress_Base
+class Aether_Editor extends Aether_Base
 {
     private $modules = [];
 
     protected function init()
     {
-        $this->modules['ui']       = WordExpress_Editor_UI::getInstance();
-        $this->modules['gutenberg'] = WordExpress_Editor_Gutenberg::getInstance();
-        $this->modules['content']   = WordExpress_Editor_Content::getInstance();
-        $this->modules['page']      = WordExpress_Editor_Page_React::getInstance();
-        $this->modules['ajax']      = WordExpress_Editor_Ajax::getInstance();
-        $this->modules['template_page'] = WordExpress_Template_Editor_Page::getInstance();
+        $this->modules['ui']       = Aether_Editor_UI::getInstance();
+        $this->modules['gutenberg'] = Aether_Editor_Gutenberg::getInstance();
+        $this->modules['content']   = Aether_Editor_Content::getInstance();
+        $this->modules['page']      = Aether_Editor_Page_React::getInstance();
+        $this->modules['ajax']      = Aether_Editor_Ajax::getInstance();
+        $this->modules['template_page'] = Aether_Template_Editor_Page::getInstance();
     }
 
     public function get_module($module)

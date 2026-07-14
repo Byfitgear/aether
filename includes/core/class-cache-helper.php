@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
 
-class WordExpress_Cache_Helper
+class Aether_Cache_Helper
 {
     public static function clear_page_cache()
     {

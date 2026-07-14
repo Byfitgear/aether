@@ -4,76 +4,76 @@ $settings = $settings ?? [];
 $post_types = $post_types ?? [];
 ?>
 <div class="wrap">
-    <h1><?php _e('WordExpress 设置', 'wordexpress'); ?></h1>
+    <h1><?php _e('Aether 设置', 'aether'); ?></h1>
 
-    <form id="wordexpress-settings-form" method="post">
-        <?php wp_nonce_field('wordexpress-settings', 'nonce'); ?>
+    <form id="aether-settings-form" method="post">
+        <?php wp_nonce_field('aether-settings', 'nonce'); ?>
         <table class="form-table">
             <tr>
-                <th><label for="we-enabled"><?php _e('启用编辑器', 'wordexpress'); ?></label></th>
+                <th><label for="we-enabled"><?php _e('启用编辑器', 'aether'); ?></label></th>
                 <td>
-                    <label><input type="checkbox" id="we-enabled" name="settings[enabled]" value="1" <?php checked($settings['enabled'] ?? true); ?>> <?php _e('启用 WordExpress 可视化编辑器', 'wordexpress'); ?></label>
+                    <label><input type="checkbox" id="we-enabled" name="settings[enabled]" value="1" <?php checked($settings['enabled'] ?? true); ?>> <?php _e('启用 Aether 可视化编辑器', 'aether'); ?></label>
                 </td>
             </tr>
             <tr>
-                <th><label for="we-api-token"><?php _e('API Token', 'wordexpress'); ?></label></th>
+                <th><label for="we-api-token"><?php _e('API Token', 'aether'); ?></label></th>
                 <td>
                     <input type="password" id="we-api-token" name="settings[api_token]" value="<?php echo esc_attr($settings['api_token'] ?? ''); ?>" style="width:100%;max-width:500px;">
-                    <p class="description"><?php _e('连接后端服务所需的 API Token。留空表示仅使用本地编辑器。', 'wordexpress'); ?></p>
+                    <p class="description"><?php _e('连接后端服务所需的 API Token。留空表示仅使用本地编辑器。', 'aether'); ?></p>
                 </td>
             </tr>
             <tr>
-                <th><label><?php _e('启用的文章类型', 'wordexpress'); ?></label></th>
+                <th><label><?php _e('启用的文章类型', 'aether'); ?></label></th>
                 <td>
                     <?php foreach ($post_types as $slug => $pt): ?>
-                        <?php if (in_array($slug, ['attachment', 'wordexpress_template'])) continue; ?>
+                        <?php if (in_array($slug, ['attachment', 'aether_template'])) continue; ?>
                         <label style="display:block;margin:4px 0;">
                             <input type="checkbox" name="settings[post_types][]" value="<?php echo esc_attr($slug); ?>"
                                    <?php checked(in_array($slug, $settings['post_types'] ?? [])); ?>>
                             <?php echo esc_html($pt->label ?: $slug); ?>
                         </label>
                     <?php endforeach; ?>
-                    <p class="description"><?php _e('选择可以使用 WordExpress 编辑的文章类型。默认全部启用。', 'wordexpress'); ?></p>
+                    <p class="description"><?php _e('选择可以使用 Aether 编辑的文章类型。默认全部启用。', 'aether'); ?></p>
                 </td>
             </tr>
 
             <hr>
-            <th colspan="2"><h3><?php _e('联系表单设置', 'wordexpress'); ?></h3></th>
+            <th colspan="2"><h3><?php _e('联系表单设置', 'aether'); ?></h3></th>
 
             <tr>
-                <th><label for="we-cf-title"><?php _e('表单标题', 'wordexpress'); ?></label></th>
+                <th><label for="we-cf-title"><?php _e('表单标题', 'aether'); ?></label></th>
                 <td>
-                    <input type="text" id="we-cf-title" name="settings[contact_form_title]" value="<?php echo esc_attr($settings['contact_form_title'] ?? __('联系我们', 'wordexpress')); ?>" style="width:100%;max-width:400px;">
+                    <input type="text" id="we-cf-title" name="settings[contact_form_title]" value="<?php echo esc_attr($settings['contact_form_title'] ?? __('联系我们', 'aether')); ?>" style="width:100%;max-width:400px;">
                 </td>
             </tr>
             <tr>
-                <th><label for="we-cf-email"><?php _e('通知邮箱', 'wordexpress'); ?></label></th>
+                <th><label for="we-cf-email"><?php _e('通知邮箱', 'aether'); ?></label></th>
                 <td>
                     <input type="email" id="we-cf-email" name="settings[contact_form_email]" value="<?php echo esc_attr($settings['contact_form_email'] ?? get_option('admin_email')); ?>" style="width:100%;max-width:400px;">
                 </td>
             </tr>
             <tr>
-                <th><label for="we-cf-success"><?php _e('成功提示', 'wordexpress'); ?></label></th>
+                <th><label for="we-cf-success"><?php _e('成功提示', 'aether'); ?></label></th>
                 <td>
-                    <input type="text" id="we-cf-success" name="settings[contact_form_success_message]" value="<?php echo esc_attr($settings['contact_form_success_message'] ?? __('感谢您的留言，我们会尽快回复您！', 'wordexpress')); ?>" style="width:100%;max-width:500px;">
+                    <input type="text" id="we-cf-success" name="settings[contact_form_success_message]" value="<?php echo esc_attr($settings['contact_form_success_message'] ?? __('感谢您的留言，我们会尽快回复您！', 'aether')); ?>" style="width:100%;max-width:500px;">
                 </td>
             </tr>
             <tr>
-                <th><label><?php _e('表单字段', 'wordexpress'); ?></label></th>
+                <th><label><?php _e('表单字段', 'aether'); ?></label></th>
                 <td>
                     <div id="we-cf-fields"></div>
-                    <button type="button" id="we-add-field" class="button" style="margin-top:8px;"><?php _e('+ 添加字段', 'wordexpress'); ?></button>
+                    <button type="button" id="we-add-field" class="button" style="margin-top:8px;"><?php _e('+ 添加字段', 'aether'); ?></button>
                 </td>
             </tr>
         </table>
 
         <p class="submit">
-            <input type="submit" name="submit" class="button button-primary button-large" value="<?php _e('保存设置', 'wordexpress'); ?>">
-            <button type="button" id="we-reset-settings" class="button button-secondary" style="margin-left:12px;"><?php _e('重置为默认值', 'wordexpress'); ?></button>
+            <input type="submit" name="submit" class="button button-primary button-large" value="<?php _e('保存设置', 'aether'); ?>">
+            <button type="button" id="we-reset-settings" class="button button-secondary" style="margin-left:12px;"><?php _e('重置为默认值', 'aether'); ?></button>
         </p>
     </form>
 
-    <div id="wordexpress-settings-msg" style="display:none;padding:12px;margin:16px 0;border-radius:4px;"></div>
+    <div id="aether-settings-msg" style="display:none;padding:12px;margin:16px 0;border-radius:4px;"></div>
 </div>
 
 <script>
@@ -118,7 +118,7 @@ $post_types = $post_types ?? [];
     renderFields();
 
     // Save
-    $('#wordexpress-settings-form').on('submit', function(e) {
+    $('#aether-settings-form').on('submit', function(e) {
         e.preventDefault();
         var formData = $(this).serializeArray();
         var settings = {};
@@ -144,9 +144,9 @@ $post_types = $post_types ?? [];
         $.ajax({
             url: ajaxurl,
             type: 'POST',
-            data: { action: 'wordexpress_save_settings', nonce: wordexpressSettings.nonce, settings: settings },
+            data: { action: 'aether_save_settings', nonce: aetherSettings.nonce, settings: settings },
             success: function(r) {
-                var msg = $('#wordexpress-settings-msg');
+                var msg = $('#aether-settings-msg');
                 if (r.success) {
                     msg.css({background:'#e8f5e9',color:'#2e7d32'}).text(r.data.message).show();
                 } else {
@@ -159,13 +159,13 @@ $post_types = $post_types ?? [];
 
     // Reset
     $('#we-reset-settings').on('click', function() {
-        if (confirm('<?php echo esc_js(__('确定要重置所有设置为默认值吗？', 'wordexpress')); ?>')) {
+        if (confirm('<?php echo esc_js(__('确定要重置所有设置为默认值吗？', 'aether')); ?>')) {
             $.ajax({
                 url: ajaxurl,
                 type: 'POST',
-                data: { action: 'wordexpress_reset_settings', nonce: wordexpressSettings.nonce },
+                data: { action: 'aether_reset_settings', nonce: aetherSettings.nonce },
                 success: function(r) {
-                    var msg = $('#wordexpress-settings-msg');
+                    var msg = $('#aether-settings-msg');
                     if (r.success) {
                         msg.css({background:'#e8f5e9',color:'#2e7d32'}).text(r.data.message).show();
                         setTimeout(function(){location.reload();}, 1500);

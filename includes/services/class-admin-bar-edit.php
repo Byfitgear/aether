@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class WordExpress_admin-bar-edit extends WordExpress_Base { protected function init() {} }
+class Aether_admin-bar-edit extends Aether_Base { protected function init() {} }

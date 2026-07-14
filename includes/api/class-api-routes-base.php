@@ -1,9 +1,9 @@
 <?php
 defined('ABSPATH') || exit;
 
-abstract class WordExpress_API_Routes_Base
+abstract class Aether_API_Routes_Base
 {
-    const NAMESPACE = 'wordexpress/v1';
+    const NAMESPACE = 'aether/v1';
 
     abstract public function register_routes();
 

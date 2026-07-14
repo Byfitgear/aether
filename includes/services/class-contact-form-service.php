@@ -1,24 +1,24 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
 
-class WordExpress_Contact_Form_Service extends WordExpress_Base
+class Aether_Contact_Form_Service extends Aether_Base
 {
-    const SUBMISSIONS_TABLE = 'wp_wordexpress_contact_submissions';
+    const SUBMISSIONS_TABLE = 'wp_aether_contact_submissions';
 
     protected function init()
     {
         add_action('init', [$this, 'load_textdomain']);
-        add_shortcode('wordexpress_contact_form', [$this, 'render_shortcode']);
-        add_action('wp_ajax_wordexpress_submit_contact_form', [$this, 'ajax_submit']);
-        add_action('wp_ajax_nopriv_wordexpress_submit_contact_form', [$this, 'ajax_submit']);
+        add_shortcode('aether_contact_form', [$this, 'render_shortcode']);
+        add_action('wp_ajax_aether_submit_contact_form', [$this, 'ajax_submit']);
+        add_action('wp_ajax_nopriv_aether_submit_contact_form', [$this, 'ajax_submit']);
         add_action('rest_api_init', [$this, 'register_rest_routes']);
         add_action('admin_menu', [$this, 'add_admin_menu']);
-        add_action('admin_post_wordexpress_export_submissions', [$this, 'handle_export']);
+        add_action('admin_post_aether_export_submissions', [$this, 'handle_export']);
     }
 
     public function load_textdomain()
     {
-        load_plugin_textdomain('wordexpress', false, dirname(WORDEXPRESS_BASENAME) . '/languages');
+        load_plugin_textdomain('aether', false, dirname(AETHER_BASENAME) . '/languages');
     }
 
     // ── 数据库表初始化 ──────────────────────────────
@@ -53,11 +53,11 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
     public function add_admin_menu()
     {
         add_submenu_page(
-            'wordexpress',
-            __('表单提交', 'wordexpress'),
-            __('表单提交', 'wordexpress'),
+            'aether',
+            __('表单提交', 'aether'),
+            __('表单提交', 'aether'),
             'edit_posts',
-            'wordexpress-forms',
+            'aether-forms',
             [$this, 'render_forms_page']
         );
     }
@@ -95,46 +95,46 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
 
         ?>
         <div class="wrap">
-            <h1><?php _e('WordExpress 表单提交记录', 'wordexpress'); ?></h1>
+            <h1><?php _e('Aether 表单提交记录', 'aether'); ?></h1>
 
             <!-- 筛选表单 -->
             <form method="get" class="searchform" style="margin:16px 0;">
-                <input type="hidden" name="page" value="wordexpress-forms">
-                <input type="text" name="search" placeholder="<?php esc_attr_e('搜索...', 'wordexpress'); ?>"
+                <input type="hidden" name="page" value="aether-forms">
+                <input type="text" name="search" placeholder="<?php esc_attr_e('搜索...', 'aether'); ?>"
                        value="<?php echo esc_attr($_GET['search'] ?? ''); ?>" style="width:300px;">
                 <select name="status" style="margin-left:8px;">
-                    <option value=""><?php _e('所有状态', 'wordexpress'); ?></option>
-                    <option value="new" <?php selected($_GET['status'] ?? '', 'new'); ?>><?php _e('新提交', 'wordexpress'); ?></option>
-                    <option value="read" <?php selected($_GET['status'] ?? '', 'read'); ?>><?php _e('已读', 'wordexpress'); ?></option>
-                    <option value="replied" <?php selected($_GET['status'] ?? '', 'replied'); ?>><?php _e('已回复', 'wordexpress'); ?></option>
+                    <option value=""><?php _e('所有状态', 'aether'); ?></option>
+                    <option value="new" <?php selected($_GET['status'] ?? '', 'new'); ?>><?php _e('新提交', 'aether'); ?></option>
+                    <option value="read" <?php selected($_GET['status'] ?? '', 'read'); ?>><?php _e('已读', 'aether'); ?></option>
+                    <option value="replied" <?php selected($_GET['status'] ?? '', 'replied'); ?>><?php _e('已回复', 'aether'); ?></option>
                 </select>
-                <button type="submit" class="button"><?php _e('筛选', 'wordexpress'); ?></button>
-                <a href="<?php echo admin_url('admin-post.php?action=wordexpress_export_submissions'); ?>"
+                <button type="submit" class="button"><?php _e('筛选', 'aether'); ?></button>
+                <a href="<?php echo admin_url('admin-post.php?action=aether_export_submissions'); ?>"
                    class="button button-secondary" style="margin-left:8px;">
-                    <?php _e('导出 CSV', 'wordexpress'); ?>
+                    <?php _e('导出 CSV', 'aether'); ?>
                 </a>
                 <?php if (!empty($_GET['search']) || !empty($_GET['status'])): ?>
-                    <a href="<?php echo admin_url('admin.php?page=wordexpress-forms'); ?>"
+                    <a href="<?php echo admin_url('admin.php?page=aether-forms'); ?>"
                        class="button button-secondary" style="margin-left:8px;">
-                        <?php _e('清除筛选', 'wordexpress'); ?>
+                        <?php _e('清除筛选', 'aether'); ?>
                     </a>
                 <?php endif; ?>
             </form>
 
             <?php if (empty($rows)): ?>
-                <p><?php _e('暂无提交记录。', 'wordexpress'); ?></p>
+                <p><?php _e('暂无提交记录。', 'aether'); ?></p>
             <?php else: ?>
                 <table class="wp-list-table widefat fixed striped">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th><?php _e('姓名', 'wordexpress'); ?></th>
-                            <th><?php _e('邮箱', 'wordexpress'); ?></th>
-                            <th><?php _e('电话', 'wordexpress'); ?></th>
-                            <th><?php _e('主题', 'wordexpress'); ?></th>
-                            <th><?php _e('状态', 'wordexpress'); ?></th>
-                            <th><?php _e('时间', 'wordexpress'); ?></th>
-                            <th><?php _e('操作', 'wordexpress'); ?></th>
+                            <th><?php _e('姓名', 'aether'); ?></th>
+                            <th><?php _e('邮箱', 'aether'); ?></th>
+                            <th><?php _e('电话', 'aether'); ?></th>
+                            <th><?php _e('主题', 'aether'); ?></th>
+                            <th><?php _e('状态', 'aether'); ?></th>
+                            <th><?php _e('时间', 'aether'); ?></th>
+                            <th><?php _e('操作', 'aether'); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -162,15 +162,15 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
                                             data-message="<?php echo esc_attr($row->message); ?>"
                                             data-status="<?php echo esc_attr($row->status); ?>"
                                             data-created="<?php echo esc_attr($row->created_at); ?>">
-                                        <?php _e('查看', 'wordexpress'); ?>
+                                        <?php _e('查看', 'aether'); ?>
                                     </button>
                                     <a href="mailto:<?php echo esc_attr($row->email); ?>?subject=<?php echo rawurlencode($row->subject); ?>"
-                                       class="button button-small" title="<?php esc_attr_e('回复', 'wordexpress'); ?>">
-                                        <?php _e('回复', 'wordexpress'); ?>
+                                       class="button button-small" title="<?php esc_attr_e('回复', 'aether'); ?>">
+                                        <?php _e('回复', 'aether'); ?>
                                     </a>
                                     <button class="button button-small delete-row" data-id="<?php echo $row->id; ?>"
                                             style="color:#c62828;">
-                                        <?php _e('删除', 'wordexpress'); ?>
+                                        <?php _e('删除', 'aether'); ?>
                                     </button>
                                 </td>
                             </tr>
@@ -179,7 +179,7 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
                 </table>
 
                 <?php
-                $base_url = add_query_arg('page', 'wordexpress-forms');
+                $base_url = add_query_arg('page', 'aether-forms');
                 echo paginate_links([
                     'base'      => $base_url . '%#%',
                     'format'    => '',
@@ -196,11 +196,11 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
         <div id="we-form-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;
              background:rgba(0,0,0,.5);z-index:100000;align-items:center;justify-content:center;">
             <div style="background:#fff;padding:24px;border-radius:8px;max-width:600px;width:90%;max-height:80vh;overflow:auto;">
-                <h3 style="margin:0 0 16px;"><?php _e('提交详情', 'wordexpress'); ?></h3>
+                <h3 style="margin:0 0 16px;"><?php _e('提交详情', 'aether'); ?></h3>
                 <div id="we-modal-body"></div>
                 <div style="margin-top:16px;text-align:right;">
                     <button class="button" onclick="document.getElementById('we-form-modal').style.display='none'">
-                        <?php _e('关闭', 'wordexpress'); ?>
+                        <?php _e('关闭', 'aether'); ?>
                     </button>
                 </div>
             </div>
@@ -212,13 +212,13 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
                 btn.addEventListener('click', function() {
                     var d = this.dataset;
                     var html = '<table style="width:100%;border-collapse:collapse;">';
-                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('姓名', 'wordexpress')); ?>' + '</td><td>' + d.name + '</td></tr>';
-                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('邮箱', 'wordexpress')); ?>' + '</td><td><a href="mailto:' + d.email + '">' + d.email + '</a></td></tr>';
-                    if (d.phone) html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('电话', 'wordexpress')); ?>' + '</td><td>' + d.phone + '</td></tr>';
-                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('主题', 'wordexpress')); ?>' + '</td><td>' + d.subject + '</td></tr>';
-                    html += '<tr><td style="vertical-align:top;padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('留言', 'wordexpress')); ?>' + '</td><td style="white-space:pre-wrap;">' + d.message + '</td></tr>';
-                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('提交时间', 'wordexpress')); ?>' + '</td><td>' + d.created + '</td></tr>';
-                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('状态', 'wordexpress')); ?>' + '</td><td>' + d.status + '</td></tr>';
+                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('姓名', 'aether')); ?>' + '</td><td>' + d.name + '</td></tr>';
+                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('邮箱', 'aether')); ?>' + '</td><td><a href="mailto:' + d.email + '">' + d.email + '</a></td></tr>';
+                    if (d.phone) html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('电话', 'aether')); ?>' + '</td><td>' + d.phone + '</td></tr>';
+                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('主题', 'aether')); ?>' + '</td><td>' + d.subject + '</td></tr>';
+                    html += '<tr><td style="vertical-align:top;padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('留言', 'aether')); ?>' + '</td><td style="white-space:pre-wrap;">' + d.message + '</td></tr>';
+                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('提交时间', 'aether')); ?>' + '</td><td>' + d.created + '</td></tr>';
+                    html += '<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">' + '<?php echo esc_js(__('状态', 'aether')); ?>' + '</td><td>' + d.status + '</td></tr>';
                     html += '</table>';
                     document.getElementById('we-modal-body').innerHTML = html;
                     document.getElementById('we-form-modal').style.display = 'flex';
@@ -227,18 +227,18 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
                     fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                        body: 'action=wordexpress_mark_read&id=' + d.id
+                        body: 'action=aether_mark_read&id=' + d.id
                     });
                 });
             });
 
             document.querySelectorAll('.delete-row').forEach(function(btn) {
                 btn.addEventListener('click', function() {
-                    if (!confirm('<?php echo esc_js(__('确定删除此记录？', 'wordexpress')); ?>')) return;
+                    if (!confirm('<?php echo esc_js(__('确定删除此记录？', 'aether')); ?>')) return;
                     fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                        body: 'action=wordexpress_delete_submission&id=' + this.dataset.id
+                        body: 'action=aether_delete_submission&id=' + this.dataset.id
                     }).then(function() { location.reload(); });
                 });
             });
@@ -250,7 +250,7 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
     // ── AJAX：标记已读 ──────────────────────────────
     public function ajax_mark_read()
     {
-        check_ajax_referer('wordexpress_nonce', 'nonce', false);
+        check_ajax_referer('aether_nonce', 'nonce', false);
         $id = intval($_POST['id'] ?? 0);
         if (!$id) wp_die();
         global $wpdb;
@@ -267,7 +267,7 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
     // ── AJAX：删除提交 ──────────────────────────────
     public function ajax_delete_submission()
     {
-        check_ajax_referer('wordexpress_nonce', 'nonce', false);
+        check_ajax_referer('aether_nonce', 'nonce', false);
         if (!current_user_can('manage_options')) wp_die();
         $id = intval($_POST['id'] ?? 0);
         if (!$id) wp_die();
@@ -280,11 +280,11 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
     public function ajax_submit()
     {
         // CSRF check
-        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'wordexpress_contact_form')) {
-            wp_send_json_error(['message' => __('安全校验失败，请刷新页面重试。', 'wordexpress')], 403);
+        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'aether_contact_form')) {
+            wp_send_json_error(['message' => __('安全校验失败，请刷新页面重试。', 'aether')], 403);
         }
 
-        $settings = WordExpress_Settings_Service::get_all();
+        $settings = Aether_Settings_Service::get_all();
         $fields = $settings['contact_form_fields'] ?? [
             ['name' => 'name', 'label' => '姓名', 'type' => 'text', 'required' => true],
             ['name' => 'email', 'label' => '邮箱', 'type' => 'email', 'required' => true],
@@ -304,14 +304,14 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
         foreach ($fields as $field) {
             if ($field['required'] && empty($data[$field['name']])) {
                 wp_send_json_error([
-                    'message' => sprintf(__('请填写 "%s"。', 'wordexpress'), $field['label'])
+                    'message' => sprintf(__('请填写 "%s"。', 'aether'), $field['label'])
                 ], 422);
             }
         }
 
         // 邮箱格式校验
         if (!empty($data['email']) && !is_email($data['email'])) {
-            wp_send_json_error(['message' => __('邮箱格式不正确。', 'wordexpress')], 422);
+            wp_send_json_error(['message' => __('邮箱格式不正确。', 'aether')], 422);
         }
 
         // 保存提交记录
@@ -335,18 +335,18 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
         $subject = sprintf('[%s] %s', get_bloginfo('name'), $data['subject'] ?? '');
         $body = sprintf(
             "<h2>%s</h2>\n<p><strong>%s:</strong> %s</p>\n<p><strong>%s:</strong> %s</p>\n<p><strong>%s:</strong> %s</p>\n<p><strong>%s:</strong> %s</p>\n<hr>\n<p>%s</p>",
-            __('新联系表单提交', 'wordexpress'),
-            __('姓名', 'wordexpress'), $data['name'] ?? '',
-            __('邮箱', 'wordexpress'), $data['email'] ?? '',
-            __('电话', 'wordexpress'), $data['phone'] ?? '—',
-            __('主题', 'wordexpress'), $data['subject'] ?? '',
-            __('留言', 'wordexpress'), nl2br($data['message'] ?? '')
+            __('新联系表单提交', 'aether'),
+            __('姓名', 'aether'), $data['name'] ?? '',
+            __('邮箱', 'aether'), $data['email'] ?? '',
+            __('电话', 'aether'), $data['phone'] ?? '—',
+            __('主题', 'aether'), $data['subject'] ?? '',
+            __('留言', 'aether'), nl2br($data['message'] ?? '')
         );
         $headers = ['Content-Type: text/html; charset=UTF-8'];
         wp_mail($to, $subject, $body, $headers);
 
         wp_send_json_success([
-            'message' => $settings['contact_form_success_message'] ?? __('感谢您的留言，我们会尽快回复您！', 'wordexpress'),
+            'message' => $settings['contact_form_success_message'] ?? __('感谢您的留言，我们会尽快回复您！', 'aether'),
             'submission_id' => $submission_id,
         ]);
     }
@@ -354,13 +354,13 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
     // ── REST API ────────────────────────────────────
     public function register_rest_routes()
     {
-        register_rest_route('wordexpress/v1', '/contact/form-config', [
+        register_rest_route('aether/v1', '/contact/form-config', [
             'methods' => WP_REST_Server::READABLE,
             'callback' => [$this, 'get_form_config'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('wordexpress/v1', '/contact/submit', [
+        register_rest_route('aether/v1', '/contact/submit', [
             'methods' => WP_REST_Server::CREATABLE,
             'callback' => [$this, 'rest_submit'],
             'permission_callback' => '__return_true',
@@ -369,19 +369,19 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
 
     public function get_form_config($request)
     {
-        $settings = WordExpress_Settings_Service::get_all();
+        $settings = Aether_Settings_Service::get_all();
         return new WP_REST_Response([
             'success' => true,
-            'title' => $settings['contact_form_title'] ?? __('联系我们', 'wordexpress'),
+            'title' => $settings['contact_form_title'] ?? __('联系我们', 'aether'),
             'fields' => $settings['contact_form_fields'] ?? [],
-            'success_message' => $settings['contact_form_success_message'] ?? __('感谢您的留言！', 'wordexpress'),
+            'success_message' => $settings['contact_form_success_message'] ?? __('感谢您的留言！', 'aether'),
         ]);
     }
 
     public function rest_submit($request)
     {
         $data = $request->get_json_params();
-        $settings = WordExpress_Settings_Service::get_all();
+        $settings = Aether_Settings_Service::get_all();
         $fields = $settings['contact_form_fields'] ?? [];
 
         $cleaned = [];
@@ -393,7 +393,7 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
             if ($field['required'] && empty($cleaned[$field['name']])) {
                 return new WP_REST_Response([
                     'success' => false,
-                    'message' => sprintf(__('请填写 "%s"。', 'wordexpress'), $field['label']),
+                    'message' => sprintf(__('请填写 "%s"。', 'aether'), $field['label']),
                 ], 422);
             }
         }
@@ -401,7 +401,7 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
         if (!empty($cleaned['email']) && !is_email($cleaned['email'])) {
             return new WP_REST_Response([
                 'success' => false,
-                'message' => __('邮箱格式不正确。', 'wordexpress'),
+                'message' => __('邮箱格式不正确。', 'aether'),
             ], 422);
         }
 
@@ -425,13 +425,13 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
             $cleaned['name'] ?? '', $cleaned['email'] ?? '',
             $cleaned['phone'] ?? '', $cleaned['subject'] ?? '',
             $cleaned['message'] ?? '',
-            __('留言', 'wordexpress'), nl2br($cleaned['message'] ?? '')
+            __('留言', 'aether'), nl2br($cleaned['message'] ?? '')
         );
         wp_mail($to, $subject, $body, ['Content-Type: text/html; charset=UTF-8']);
 
         return new WP_REST_Response([
             'success' => true,
-            'message' => $settings['contact_form_success_message'] ?? __('提交成功！', 'wordexpress'),
+            'message' => $settings['contact_form_success_message'] ?? __('提交成功！', 'aether'),
         ]);
     }
 
@@ -444,7 +444,7 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
         $rows = $wpdb->get_results("SELECT * FROM {$table} ORDER BY created_at DESC");
 
         header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="wordexpress-form-submissions.csv"');
+        header('Content-Disposition: attachment; filename="aether-form-submissions.csv"');
         $out = fopen('php://output', 'w');
         fputcsv($out, ['#', '姓名', '邮箱', '电话', '主题', '留言', 'IP', '状态', '时间']);
         foreach ($rows as $r) {
@@ -457,17 +457,17 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
     // ── 短代码渲染 ──────────────────────────────────
     public function render_shortcode($atts)
     {
-        $settings = WordExpress_Settings_Service::get_all();
-        $title = $atts['title'] ?? $settings['contact_form_title'] ?? __('联系我们', 'wordexpress');
+        $settings = Aether_Settings_Service::get_all();
+        $title = $atts['title'] ?? $settings['contact_form_title'] ?? __('联系我们', 'aether');
         $fields = $atts['fields'] ? json_decode($atts['fields'], true) : ($settings['contact_form_fields'] ?? []);
-        $success_msg = $settings['contact_form_success_message'] ?? __('感谢您的留言，我们会尽快回复您！', 'wordexpress');
+        $success_msg = $settings['contact_form_success_message'] ?? __('感谢您的留言，我们会尽快回复您！', 'aether');
 
         ob_start();
         ?>
-        <div class="wordexpress-contact-form" id="we-contact-form-<?php echo esc_attr(wp_rand(1000, 9999)); ?>">
+        <div class="aether-contact-form" id="we-contact-form-<?php echo esc_attr(wp_rand(1000, 9999)); ?>">
             <h3><?php echo esc_html($title); ?></h3>
             <form id="we-cf-form" novalidate>
-                <input type="hidden" name="_wpnonce" value="<?php echo esc_attr(wp_create_nonce('wordexpress_contact_form')); ?>">
+                <input type="hidden" name="_wpnonce" value="<?php echo esc_attr(wp_create_nonce('aether_contact_form')); ?>">
                 <?php foreach ($fields as $field): ?>
                     <div class="we-cf-field" style="margin-bottom:16px;">
                         <label style="display:block;margin-bottom:4px;font-weight:600;">
@@ -487,14 +487,14 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
                 <?php endforeach; ?>
                 <button type="submit" id="we-cf-submit"
                         style="padding:12px 32px;background:#0073aa;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:16px;">
-                    <?php _e('发送', 'wordexpress'); ?>
+                    <?php _e('发送', 'aether'); ?>
                 </button>
                 <div id="we-cf-msg" style="margin-top:12px;display:none;padding:12px;border-radius:4px;"></div>
             </form>
         </div>
         <style>
-            .wordexpress-contact-form input:focus,
-            .wordexpress-contact-form textarea:focus {
+            .aether-contact-form input:focus,
+            .aether-contact-form textarea:focus {
                 border-color: #0073aa;
                 outline: none;
                 box-shadow: 0 0 0 2px rgba(0,115,170,.2);
@@ -509,10 +509,10 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
             form.addEventListener('submit', function(e){
                 e.preventDefault();
                 btn.disabled = true;
-                btn.textContent = '<?php echo esc_js(__('发送中...', 'wordexpress')); ?>';
+                btn.textContent = '<?php echo esc_js(__('发送中...', 'aether')); ?>';
                 msg.style.display = 'none';
                 var fd = new FormData(form);
-                fd.set('action', 'wordexpress_submit_contact_form');
+                fd.set('action', 'aether_submit_contact_form');
                 fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {method:'POST', body:fd})
                 .then(function(r){ return r.json(); })
                 .then(function(data){
@@ -526,16 +526,16 @@ class WordExpress_Contact_Form_Service extends WordExpress_Base
                         msg.style.display = 'block';
                         msg.style.background = '#ffebee';
                         msg.style.color = '#c62828';
-                        msg.textContent = data.message || '<?php echo esc_js(__('提交失败，请重试。', 'wordexpress')); ?>';
+                        msg.textContent = data.message || '<?php echo esc_js(__('提交失败，请重试。', 'aether')); ?>';
                     }
                 }).catch(function(){
                     msg.style.display = 'block';
                     msg.style.background = '#ffebee';
                     msg.style.color = '#c62828';
-                    msg.textContent = '<?php echo esc_js(__('网络错误，请检查连接后重试。', 'wordexpress')); ?>';
+                    msg.textContent = '<?php echo esc_js(__('网络错误，请检查连接后重试。', 'aether')); ?>';
                 }).finally(function(){
                     btn.disabled = false;
-                    btn.textContent = '<?php echo esc_js(__('发送', 'wordexpress')); ?>';
+                    btn.textContent = '<?php echo esc_js(__('发送', 'aether')); ?>';
                 });
             });
         })();

@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
 
-class WordExpress_Unified_Proxy
+class Aether_Unified_Proxy
 {
     private static $instance = null;
     private $proxies = [];
@@ -17,12 +17,12 @@ class WordExpress_Unified_Proxy
 
     private function __construct()
     {
-        $config_file = WORDEXPRESS_PATH . 'includes/config/proxy-config.php';
+        $config_file = AETHER_PATH . 'includes/config/proxy-config.php';
         if (file_exists($config_file)) {
             $config = require $config_file;
             $this->proxies = $this->process_config($config);
         }
-        $this->proxies = apply_filters('wordexpress_proxy_config', $this->proxies);
+        $this->proxies = apply_filters('aether_proxy_config', $this->proxies);
     }
 
     private function process_config($config)
@@ -44,12 +44,12 @@ class WordExpress_Unified_Proxy
     public function request($proxy_name, $endpoint, $args = [])
     {
         if (!isset($this->proxies[$proxy_name])) {
-            return new WP_Error('invalid_proxy', __('Invalid proxy service', 'wordexpress'));
+            return new WP_Error('invalid_proxy', __('Invalid proxy service', 'aether'));
         }
         $proxy_config = $this->proxies[$proxy_name];
         $endpoint_config = $proxy_config['endpoints'][$endpoint] ?? null;
         if (!$endpoint_config) {
-            return new WP_Error('invalid_endpoint', __('Invalid endpoint', 'wordexpress'));
+            return new WP_Error('invalid_endpoint', __('Invalid endpoint', 'aether'));
         }
 
         $base_url = $proxy_config['base_url'];

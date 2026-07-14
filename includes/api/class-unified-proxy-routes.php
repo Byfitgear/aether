@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
 
-class WordExpress_Unified_Proxy_Routes
+class Aether_Unified_Proxy_Routes
 {
     private static $instance = null;
     private $proxy;
@@ -16,7 +16,7 @@ class WordExpress_Unified_Proxy_Routes
 
     private function __construct()
     {
-        $this->proxy = WordExpress_Unified_Proxy::get_instance();
+        $this->proxy = Aether_Unified_Proxy::get_instance();
         add_action('rest_api_init', [$this, 'register_routes']);
     }
 
@@ -33,10 +33,10 @@ class WordExpress_Unified_Proxy_Routes
                             $route .= '/(?P<' . $param . '>[^/]+)';
                         }
                     }
-                    register_rest_route('wordexpress/v1', $route, [
+                    register_rest_route('aether/v1', $route, [
                         'methods' => $ep_cfg['method'] ?? 'GET',
                         'callback' => [$this, 'handle_proxy_request'],
-                        'permission_callback' => [WordExpress_Permission_Service::class, 'check_rest_permission'],
+                        'permission_callback' => [Aether_Permission_Service::class, 'check_rest_permission'],
                     ]);
                 }
             }

@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class WordExpress_plugin-info extends WordExpress_Base { protected function init() {} }
+class Aether_plugin-info extends Aether_Base { protected function init() {} }

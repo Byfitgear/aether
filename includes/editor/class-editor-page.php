@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-class WordExpress_Editor_Page extends WordExpress_Editor_Page_Base
+class Aether_Editor_Page extends Aether_Editor_Page_Base
 {
     protected function init()
     {
@@ -12,13 +12,13 @@ class WordExpress_Editor_Page extends WordExpress_Editor_Page_Base
 
     public function add_editor_page()
     {
-        add_submenu_page('', __('WordExpress 编辑器', 'wordexpress'), __('WordExpress 编辑器', 'wordexpress'), 'edit_posts', 'wordexpress-editor', [$this, 'render_editor_page']);
+        add_submenu_page('', __('Aether 编辑器', 'aether'), __('Aether 编辑器', 'aether'), 'edit_posts', 'aether-editor', [$this, 'render_editor_page']);
     }
 
     public function render_editor_page()
     {
         $post_id = isset($_GET['post_id']) ? intval($_GET['post_id']) : 0;
-        if (!$post_id) wp_die(__('无效的文章 ID。', 'wordexpress'));
+        if (!$post_id) wp_die(__('无效的文章 ID。', 'aether'));
         $post = $this->get_post($post_id);
         $template_vars = ['post' => $post, 'post_id' => $post_id];
         $this->load_template('editor-page', $template_vars);
@@ -27,13 +27,13 @@ class WordExpress_Editor_Page extends WordExpress_Editor_Page_Base
 
     public function handle_editor_page()
     {
-        if (!isset($_GET['page']) || $_GET['page'] !== 'wordexpress-editor') return;
+        if (!isset($_GET['page']) || $_GET['page'] !== 'aether-editor') return;
         wp_dequeue_script('autosave');
-        add_filter('admin_body_class', function($c) { return $c . ' wordexpress-fullscreen'; });
+        add_filter('admin_body_class', function($c) { return $c . ' aether-fullscreen'; });
     }
 
     public function hide_screen_options($show, $screen)
     {
-        return (isset($_GET['page']) && $_GET['page'] === 'wordexpress-editor') ? false : $show;
+        return (isset($_GET['page']) && $_GET['page'] === 'aether-editor') ? false : $show;
     }
 }

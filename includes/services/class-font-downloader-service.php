@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class WordExpress_font-downloader-service extends WordExpress_Base { protected function init() {} }
+class Aether_font-downloader-service extends Aether_Base { protected function init() {} }

@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-class WordExpress_Template_Editor_Page extends WordExpress_Base
+class Aether_Template_Editor_Page extends Aether_Base
 {
     protected function init()
     {

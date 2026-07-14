@@ -1,3 +1,3 @@
 <?php
 defined('ABSPATH') || exit;
-class WordExpress_production-mode-manager extends WordExpress_Base { protected function init() {} }
+class Aether_production-mode-manager extends Aether_Base { protected function init() {} }

@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-class WordExpress_Permission_Service
+class Aether_Permission_Service
 {
     public static function can_use_editor()
     {
@@ -23,7 +23,7 @@ class WordExpress_Permission_Service
         if (!self::can_use_editor()) {
             return new WP_Error(
                 'rest_forbidden',
-                __('您没有权限执行此操作。', 'wordexpress'),
+                __('您没有权限执行此操作。', 'aether'),
                 ['status' => 403]
             );
         }
@@ -36,7 +36,7 @@ class WordExpress_Permission_Service
         if (!$post_id || !self::can_edit_post($post_id)) {
             return new WP_Error(
                 'rest_forbidden',
-                __('您没有权限编辑此文章。', 'wordexpress'),
+                __('您没有权限编辑此文章。', 'aether'),
                 ['status' => 403]
             );
         }
