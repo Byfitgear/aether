@@ -41,12 +41,6 @@ class Aether_Editor_UI extends Aether_Base {
      * @return array
      */
     public function add_editor_link($actions, $post) {
-        // 检查 API Token 是否已配置
-        $api_token = Aether_Settings_Service::get('api_token');
-        if (empty($api_token)) {
-            return $actions;
-        }
-        
         $allowed_types = Aether_Settings_Service::get('post_types', null);
         
         // If no saved types, get all available post types dynamically
@@ -90,14 +84,6 @@ class Aether_Editor_UI extends Aether_Base {
      * @param WP_Post $post 文章对象
      */
     public function add_editor_button($post) {
-        // 检查 API Token 是否已配置
-        $api_token = Aether_Settings_Service::get('api_token');
-        if (empty($api_token)) {
-            // 显示配置提示
-            $this->render_token_setup_notice();
-            return;
-        }
-        
         $allowed_types = Aether_Settings_Service::get('post_types', null);
         
         // If no saved types, get all available post types dynamically
@@ -453,22 +439,6 @@ class Aether_Editor_UI extends Aether_Base {
     /**
      * 渲染 Token 设置提示
      */
-    private function render_token_setup_notice() {
-        $settings_url = admin_url('admin.php?page=aether');
-        ?>
-        <div class="aether-editor-notice notice notice-warning" style="margin: 10px 0; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107;">
-            <h3 style="margin: 0 0 10px 0; color: #856404;">
-                <?php _e('需要配置 aether API Token', 'aether'); ?>
-            </h3>
-            <p style="margin: 0 0 15px 0; color: #856404;">
-                <?php _e('要使用 aether 编辑器，您需要先配置 API Token。请前往设置页面完成配置。', 'aether'); ?>
-            </p>
-            <a href="<?php echo esc_url($settings_url); ?>" class="button button-primary">
-                <?php _e('前往设置', 'aether'); ?>
-            </a>
-        </div>
-        <?php
-    }
 
     /**
      * 注册管理员样式

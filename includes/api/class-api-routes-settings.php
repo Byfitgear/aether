@@ -144,22 +144,15 @@ class Aether_API_Routes_Settings extends Aether_API_Routes_Base {
     /**
      * Verify API Token
      */
+    /**
+     * Verify API Token - Free version always succeeds
+     */
     public function verify_token($request) {
-        $data = $request->get_json_params();
-        
-        if (empty($data['token'])) {
-            return $this->error_response(__('Token 不能为空', 'aether'));
-        }
-        
-        $result = Aether_Settings_Service::verify_api_token($data['token']);
-        
-        if ($result['valid']) {
-            return $this->success_response($result, $result['message']);
-        } else {
-            return $this->success_response($result, $result['message']);
-        }
+        return $this->success_response([
+            'valid' => true,
+            'message' => __('Token 验证通过（免费版无需验证）', 'aether')
+        ]);
     }
-
     /**
      * Get design system HTML
      */

@@ -19,7 +19,7 @@ return [
             'development' => 'http://localhost:5173/api',
             'staging' => 'https://aether-staging.yansir.workers.dev/api'
         ],
-        'default_auth' => 'bearer',
+        'default_auth' => 'none', // Free version - no auth required
         'default_token_source' => 'settings:aether_settings[api_token]',
         'default_headers' => [
             'Content-Type' => 'application/json'

@@ -265,40 +265,20 @@ class Aether_Settings_Service
      * @param string $token API Token
      * @return array 验证结果
      */
+    /**
+     * 验证 API Token - 免费版无需验证
+     */
+
+    /**
+     * 验证 API Token - 免费版无需验证
+     *
+     * @param string $token API Token (ignored in free version)
+     * @return array 验证结果
+     */
     public static function verify_api_token($token)
     {
-        if (empty($token)) {
-            return [
-                'valid' => false,
-                'message' => 'Token 不能为空'
-            ];
-        }
-
-        // 使用统一代理验证 token
-        $proxy = Aether_Unified_Proxy::get_instance();
-        $response = $proxy->request('auth', 'verify_token', [
-            'data' => [
-                'token' => $token
-            ]
-        ]);
-
-        if (is_wp_error($response)) {
-            return [
-                'valid' => false,
-                'message' => '验证失败：' . $response->get_error_message()
-            ];
-        }
-
-        if (isset($response['data']['valid'])) {
-            return [
-                'valid' => $response['data']['valid'],
-                'message' => $response['data']['message'] ?? ($response['data']['valid'] ? 'Token 验证成功' : 'Token 无效')
-            ];
-        }
-
         return [
-            'valid' => false,
-            'message' => 'Token 验证失败'
+            'valid' => true,
+            'message' => 'Token 验证通过（免费版无需验证）'
         ];
     }
-}

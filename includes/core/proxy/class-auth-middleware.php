@@ -20,6 +20,16 @@ class Aether_Proxy_Auth_Middleware implements Aether_Proxy_Middleware
      */
     public function process($request, $next)
     {
+        // Free version - skip authentication entirely
+        return $next($request);
+    }
+
+    /**
+     * Original auth process (kept for reference)
+     * @deprecated Free version skips auth
+     */
+    private function _original_process($request, $next)
+    {
         $auth_config = $request['endpoint_config']['auth'] ?? $request['global_config']['default_auth'] ?? null;
 
         // Skip auth if explicitly set to false or null
