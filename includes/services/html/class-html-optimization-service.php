@@ -54,7 +54,7 @@ class Aether_HTML_Optimization_Service
     private $processing = false;
 
     /**
-     * 私有构造函数
+     * 私有Constructor
      */
     private function __construct()
     {

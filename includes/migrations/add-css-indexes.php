@@ -22,7 +22,7 @@ function aether_migration_add_css_indexes()
 {
     global $wpdb;
 
-    // 检查是否已执行过此迁移
+    // Check if this migration has been executed
     $migration_key = 'aether_migration_css_indexes_v1';
     if (get_option($migration_key)) {
         return [
@@ -35,11 +35,11 @@ function aether_migration_add_css_indexes()
     $indexes_added = [];
     $errors = [];
 
-    // 检查索引是否已存在
+    // Check if index already exists
     $existing_indexes = $wpdb->get_results("SHOW INDEX FROM {$wpdb->postmeta}", ARRAY_A);
     $existing_index_names = array_column($existing_indexes, 'Key_name');
 
-    // 索引定义
+    // Index definition
     $indexes_to_add = [
         [
             'name' => 'idx_aether_edited',
@@ -53,7 +53,7 @@ function aether_migration_add_css_indexes()
 
     foreach ($indexes_to_add as $index) {
         if (in_array($index['name'], $existing_index_names)) {
-            continue; // 索引已存在
+            continue; // Index already exists
         }
 
         $result = $wpdb->query($index['sql']);
@@ -73,7 +73,7 @@ function aether_migration_add_css_indexes()
         }
     }
 
-    // 标记迁移完成
+    // Mark migration as complete
     if (empty($errors)) {
         update_option($migration_key, current_time('mysql'));
     }
@@ -131,7 +131,7 @@ function aether_migration_remove_css_indexes()
         }
     }
 
-    // 清除迁移标记
+    // Clear migration marker
     delete_option('aether_migration_css_indexes_v1');
 
     return [

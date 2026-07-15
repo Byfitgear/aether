@@ -85,7 +85,7 @@ function aether_migrate_to_page_level_css()
             }
         }
 
-        // 4. 标记迁移完成
+        // 4. Mark migration as complete
         update_option($migration_key, current_time('mysql'));
 
         error_log(sprintf(

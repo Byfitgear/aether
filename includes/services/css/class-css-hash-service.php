@@ -35,7 +35,7 @@ class Aether_CSS_Hash_Service {
     }
 
     /**
-     * 私有构造函数
+     * 私有Constructor
      */
     private function __construct() {
     }

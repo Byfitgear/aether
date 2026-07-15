@@ -42,7 +42,7 @@ class Aether_Smart_CSS_Compiler_Service
     }
 
     /**
-     * 私有构造函数
+     * 私有Constructor
      */
     private function __construct()
     {

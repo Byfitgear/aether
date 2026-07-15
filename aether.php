@@ -45,8 +45,8 @@ Aether_Autoloader::register();
 require_once AETHER_PATH . 'includes/services/class-contact-form-service.php';
 
 // Process aether settings early to avoid object cache interference:
-// - 强制 autoload = 'no'，避免进入 alloptions 强缓存
-// - 通过 pre_option_aether_settings 短路读取，直接从数据库返回最新值
+// - Force autoload = 'no' to prevent entering alloptions strong cache
+// - Short-circuit read via pre_option_aether_settings, return latest value directly from database
 add_action('plugins_loaded', function () {
     global $wpdb;
 
@@ -205,11 +205,11 @@ class Aether
         if (class_exists('Aether_HTML_Render_Filter')) {
             Aether_HTML_Render_Filter::get_instance();
             if (defined('AETHER_DEBUG') && AETHER_DEBUG) {
-                error_log('[aether] HTML Render Filter 初始化成功');
+                error_log('[aether] HTML Render Filter initialization successful');
             }
         } else {
             if (defined('AETHER_DEBUG') && AETHER_DEBUG) {
-                error_log('[aether] HTML Render Filter 类不存在！');
+                error_log('[aether] HTML Render Filter class not found!');
             }
         }
 

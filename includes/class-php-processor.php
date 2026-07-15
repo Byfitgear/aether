@@ -103,13 +103,13 @@ class Aether_PHP_Processor extends Aether_Base {
             $error = 'Error: ' . $e->getMessage();
             $output = $content;
         } finally {
-            // 确保清理临时文件
+            // Ensure cleanup of temporary files
             if ($temp_file && file_exists($temp_file)) {
                 wp_delete_file($temp_file);
             }
         }
         
-        // 恢复原始 post
+        // Restore original post
         $post = $original_post;
         if ($original_post) {
             setup_postdata($original_post);

@@ -23,7 +23,7 @@ class Aether_PHP_Protection_Manager {
     }
 
     private function __construct() {
-        // 延迟初始化，避免在构造函数中做太多事情
+        // 延迟初始化，避免在Constructor中做太多事情
         add_action('plugins_loaded', [$this, 'init_once'], 1);
     }
 

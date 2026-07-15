@@ -192,7 +192,7 @@ class Aether_Template_Service extends Aether_Base {
         
         $output = ob_get_clean();
         
-        // 恢复原始 post
+        // Restore original post
         if (isset($original_post)) {
             $post = $original_post;
             if ($original_post) {
