@@ -1,0 +1,15 @@
+# WebAssembly MIME type configuration
+<IfModule mod_mime.c>
+  AddType application/wasm .wasm
+</IfModule>
+
+# Gzip compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE application/wasm
+</IfModule>
+
+# Cache policy
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType application/wasm "access plus 1 year"
+</IfModule>
