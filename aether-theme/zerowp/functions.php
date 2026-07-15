@@ -59,14 +59,18 @@ function aether_clean_head() {
     remove_action('wp_head', 'feed_links', 2);
     remove_action('wp_head', 'feed_links_extra', 3);
     remove_action('wp_head', 'adjacent_posts_rel_link_wp_head');
-    remove_action('template_redirect', 'rest_output_link_header', 11);
     remove_filter('wp_robots', 'wp_robots_max_image_preview_large');
-    remove_action('wp_head', 'rel_canonical');
     remove_action('wp_head', 'wp_oembed_add_host_js');
     remove_action('wp_head', 'wp_robots', 1);
     remove_action('wp_head', 'wp_resource_hints', 2);
 }
 add_action('init', 'aether_clean_head');
+
+// rel_canonical 由 template_redirect 钩子添加，需在此钩子上移除
+function aether_clean_rels() {
+    remove_action('template_redirect', 'rel_canonical', 10);
+}
+add_action('template_redirect', 'aether_clean_rels', 1);
 
 // 移除 speculation rules 脚本
 add_filter('wp_speculation_rules_configuration', '__return_null');

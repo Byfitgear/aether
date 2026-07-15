@@ -11,11 +11,18 @@
     }
 
     function updateIcons() {
-        document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
-        document.getElementById('icon-moon').classList.toggle('hidden', isDark);
+        var sunIcon = document.getElementById('icon-sun');
+        var moonIcon = document.getElementById('icon-moon');
+        if (sunIcon) sunIcon.classList.toggle('hidden', !isDark);
+        if (moonIcon) moonIcon.classList.toggle('hidden', isDark);
     }
 
-    updateIcons();
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateIcons);
+    } else {
+        updateIcons();
+    }
 
     var btn = document.getElementById('aether-dark-toggle');
     if (btn) {

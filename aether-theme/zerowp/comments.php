@@ -39,33 +39,3 @@ if (!post_password_required()) : ?>
     ?>
 </section>
 <?php endif;
-
-if (!function_exists('aether_comment_callback')):
-function aether_comment_callback($comment, $args, $depth) {
-    $tag = 'li';
-    ?>
-    <<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
-        <div class="flex gap-3">
-            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-sm font-medium text-gray-600 dark:text-gray-400">
-                <?php echo esc_html(get_comment_author()); ?>
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 text-sm mb-1">
-                    <span class="font-medium text-gray-900 dark:text-gray-100"><?php comment_author(); ?></span>
-                    <span class="text-gray-400 dark:text-gray-500"><?php comment_date('Y-m-d'); ?></span>
-                    <?php
-                    if (comment_reply_link(array_merge($args, array(
-                        'depth'     => $depth,
-                        'max_depth' => $args['max_depth'],
-                    )))) : ?>
-                        <span class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer text-xs">回复</span>
-                    <?php endif; ?>
-                </div>
-                <div class="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    <?php comment_text(); ?>
-                </div>
-            </div>
-        </div>
-    <?php
-}
-endif;

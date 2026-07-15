@@ -15,9 +15,3 @@ body.admin-bar #page { padding-top: 32px; }
 @media screen and (max-width: 782px) {
     body.admin-bar #page { padding-top: 46px; }
 }
-
-/* Tailwind Typography overrides */
-.prose p { margin-bottom: 1.25em; line-height: 1.8; }
-.prose img { border-radius: 0.5rem; }
-.prose pre { background: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; }
-.prose blockquote { border-left: 3px solid #e5e7eb; padding-left: 1rem; color: #6b7280; font-style: italic; }
