@@ -51,7 +51,7 @@ class Aether_Font_CSS_Generator_Service {
     ];
     
     /**
-     * 构造函数
+     * Constructor
      */
     public function __construct() {
         // 使用相对路径

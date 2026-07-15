@@ -26,7 +26,7 @@ class Aether_Font_Manager_Service
     private $css_generator;
 
     /**
-     * 构造函数
+     * Constructor
      */
     public function __construct()
     {

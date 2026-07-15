@@ -31,7 +31,7 @@ class Aether_Smart_CSS_Compiler_Service
 
 
     /**
-     * 获取单例实例
+     * Get singleton instance
      */
     public static function get_instance()
     {
@@ -218,7 +218,7 @@ class Aether_Smart_CSS_Compiler_Service
         // 6. 计算实际的 CDN 总大小（每个页面都会加载完整的 CDN）
         $totalCompiledPages = $stats['compiledPages'];
         if ($totalCompiledPages > 0) {
-            $stats['cdnSize'] = 342016 * $totalCompiledPages; // 每个页面都要加载 340KB 的 CDN
+            $stats['cdnSize'] = 342016 * $totalCompiledPages; // Every page must load 340KB of CDN
         }
 
         // 7. 保存统计信息

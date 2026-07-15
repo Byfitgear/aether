@@ -325,5 +325,5 @@ class Aether_Plugin_Updater {
     }
 }
 
-// 初始化插件更新器
+// Initialize plugin更新器
 new Aether_Plugin_Updater();

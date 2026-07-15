@@ -22,7 +22,7 @@ class Aether_Image_Processor {
     private $environment;
 
     /**
-     * 构造函数
+     * Constructor
      *
      * @param Aether_Image_Environment $environment 环境检测实例
      */
@@ -82,7 +82,7 @@ class Aether_Image_Processor {
             ];
         }
 
-        // 检测环境
+        // Detect environment
         $env = $this->environment->detect_environment();
         if ($env['recommendation'] === 'none') {
             throw new Exception('无法缩放图片：服务器不支持 Imagick 或 GD 扩展');

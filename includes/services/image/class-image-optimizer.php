@@ -36,7 +36,7 @@ class Aether_Image_Optimizer {
     private $processor;
 
     /**
-     * 获取单例实例
+     * Get singleton instance
      *
      * @return Aether_Image_Optimizer
      */
@@ -48,7 +48,7 @@ class Aether_Image_Optimizer {
     }
 
     /**
-     * 构造函数（私有，单例模式）
+     * Constructor（私有，单例模式）
      */
     private function __construct() {
         // 初始化组件
@@ -137,7 +137,7 @@ class Aether_Image_Optimizer {
      * @return array 修改后的元数据
      */
     public function optimize_on_upload(array $metadata, int $attachment_id): array {
-        // 只处理图片类型的附件
+        // Only process image types的附件
         if (!wp_attachment_is_image($attachment_id)) {
             return $metadata;
         }

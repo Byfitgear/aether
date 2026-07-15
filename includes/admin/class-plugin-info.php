@@ -19,7 +19,7 @@ class Aether_Plugin_Info
     private static $instance = null;
 
     /**
-     * 获取单例实例
+     * Get singleton instance
      */
     public static function get_instance()
     {
@@ -30,7 +30,7 @@ class Aether_Plugin_Info
     }
 
     /**
-     * 构造函数
+     * Constructor
      */
     private function __construct()
     {

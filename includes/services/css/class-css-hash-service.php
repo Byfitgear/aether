@@ -25,7 +25,7 @@ class Aether_CSS_Hash_Service {
     const CACHE_EXPIRATION = 3600;
 
     /**
-     * 获取单例实例
+     * Get singleton instance
      */
     public static function get_instance() {
         if (self::$instance === null) {

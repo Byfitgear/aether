@@ -21,7 +21,7 @@ class Aether_Font_Downloader_Service
     private $fonts_dir;
 
     /**
-     * 构造函数
+     * Constructor
      */
     public function __construct()
     {

@@ -38,7 +38,7 @@ class Aether_HTML_Optimization_Service
     const OPTION_ENABLED = 'aether_image_optimization_enabled';
 
     /**
-     * 获取单例实例
+     * Get singleton instance
      */
     public static function get_instance()
     {

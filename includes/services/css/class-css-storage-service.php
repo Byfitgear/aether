@@ -21,7 +21,7 @@ class Aether_CSS_Storage_Service
 
 
     /**
-     * 获取单例实例
+     * Get singleton instance
      */
     public static function get_instance()
     {

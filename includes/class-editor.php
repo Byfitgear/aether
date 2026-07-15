@@ -23,7 +23,7 @@ class Aether_Editor extends Aether_Base {
      * 初始化
      */
     protected function init() {
-        // 初始化各个模块
+        // Initialize various modules
         $this->modules['ui'] = Aether_Editor_UI::getInstance();
         $this->modules['gutenberg'] = Aether_Editor_Gutenberg::getInstance();
         $this->modules['content'] = Aether_Editor_Content::getInstance();

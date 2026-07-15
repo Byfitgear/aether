@@ -81,7 +81,7 @@ class Aether_PHP_Processor extends Aether_Base {
         $temp_file = null;
         
         try {
-            // 创建临时文件，写入内容后 include
+            // Create temp file, write content then include
             $temp_file = tempnam(sys_get_temp_dir(), 'aether_');
             file_put_contents($temp_file, $content);
             
@@ -89,7 +89,7 @@ class Aether_PHP_Processor extends Aether_Base {
             include $temp_file;
             $output = ob_get_clean();
             
-            // 立即删除临时文件
+            // Delete temp file immediately
             wp_delete_file($temp_file);
             $temp_file = null;
             

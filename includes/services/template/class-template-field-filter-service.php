@@ -208,7 +208,7 @@ class Aether_Template_Field_Filter_Service {
     }
 
     /**
-     * 解析模板类型
+     * Parse template type
      *
      * @param string $template_type 模板类型
      * @return array {

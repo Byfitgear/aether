@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 class Aether_Field_Discovery_API {
     
     /**
-     * 构造函数
+     * Constructor
      */
     public function __construct() {
         // 确保依赖的服务已加载

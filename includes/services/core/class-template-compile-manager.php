@@ -21,11 +21,11 @@ class Aether_Template_Compile_Manager
     const BATCH_SIZE = 50;                     // 每批处理 50 页
     const BATCH_SLEEP_SECONDS = 1;             // 每批休息 1 秒
     const PROGRESS_UPDATE_INTERVAL = 10;       // 每 10 页更新进度
-    const ZOMBIE_TASK_TIMEOUT = 3600;          // 1 小时僵尸任务超时
+    const ZOMBIE_TASK_TIMEOUT = 3600;          // 1 hour zombie task timeout
     const COMPILE_TIMEOUT = 10;                // 单页编译超时 10 秒
 
     /**
-     * 初始化钩子
+     * Initialize hooks
      */
     public static function init()
     {

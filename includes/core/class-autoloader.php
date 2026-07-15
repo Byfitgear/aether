@@ -115,7 +115,7 @@ class Aether_Autoloader
     ];
 
     /**
-     * 注册自动加载器
+     * Register autoloader
      */
     public static function register()
     {

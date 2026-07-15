@@ -23,14 +23,14 @@ abstract class Aether_Base {
     private static $instances = [];
     
     /**
-     * 构造函数
+     * Constructor
      */
     protected function __construct() {
         $this->init();
     }
     
     /**
-     * 获取单例实例
+     * Get singleton instance
      * 
      * @return static
      */
@@ -76,11 +76,11 @@ abstract class Aether_Base {
      * @return string 版本号
      */
     protected function get_asset_version($file_path) {
-        // 检查是否启用了开发模式
+        // Check if development mode is enabled
         $dev_mode = defined('AETHER_DEV_MODE') && constant('AETHER_DEV_MODE');
         
         if ($dev_mode) {
-            // 开发模式下使用时间戳确保总是获取最新版本
+            // Use timestamp in development mode to ensure always getting latest version
             return time();
         }
         

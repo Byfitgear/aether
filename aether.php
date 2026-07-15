@@ -10,48 +10,48 @@
  * Text Domain: aether
  */
 
-// 防止直接访问
+// Prevent direct access
 defined('ABSPATH') || exit;
 
-// 定义插件常量
+// Define plugin constants
 define('AETHER_VERSION', '1.1.45');
 define('AETHER_PATH', plugin_dir_path(__FILE__));
 define('AETHER_URL', plugin_dir_url(__FILE__));
 define('AETHER_BASENAME', plugin_basename(__FILE__));
 define('AETHER_FILE', __FILE__);
 
-// 调试模式 - 可以在 wp-config.php 中覆盖
+// Debug mode - can be overridden in wp-config.php
 if (!defined('AETHER_DEBUG')) {
     define('AETHER_DEBUG', defined('WP_DEBUG') && WP_DEBUG);
 }
 
-// 开发模式 - 可以在 wp-config.php 中覆盖
+// Development mode - can be overridden in wp-config.php
 if (!defined('AETHER_DEV_MODE')) {
     define('AETHER_DEV_MODE', false);
 }
 
-// 禁用更新检查 - 可以在 wp-config.php 中覆盖
+// Disable update checks - can be overridden in wp-config.php
 if (!defined('AETHER_DISABLE_UPDATE_CHECKS')) {
     define('AETHER_DISABLE_UPDATE_CHECKS', false);
 }
 
-// 加载自动加载器
+// Load autoloader
 require_once AETHER_PATH . 'includes/core/class-autoloader.php';
 
-// 注册自动加载器
+// Register autoloader
 Aether_Autoloader::register();
 
-// 加载联系表单服务
+// Load contact form service
 require_once AETHER_PATH . 'includes/services/class-contact-form-service.php';
 
-// 提前处理 aether 设置项，避免对象缓存干扰：
+// Process aether settings early to avoid object cache interference:
 // - 强制 autoload = 'no'，避免进入 alloptions 强缓存
 // - 通过 pre_option_aether_settings 短路读取，直接从数据库返回最新值
 add_action('plugins_loaded', function () {
     global $wpdb;
 
     if (!class_exists('Aether_Settings_Service')) {
-        // 触发自动加载
+        // Trigger autoloader
         Aether_Autoloader::load_class('Aether_Settings_Service');
     }
 
@@ -61,17 +61,17 @@ add_action('plugins_loaded', function () {
 
     $option = Aether_Settings_Service::OPTION_NAME;
 
-    // 确保选项存在且 autoload = 'no'
+    // Ensure option exists and autoload = 'no'
     $row = $wpdb->get_row($wpdb->prepare("SELECT option_value, autoload FROM {$wpdb->options} WHERE option_name = %s LIMIT 1", $option));
     if (!$row) {
         add_option($option, [], '', 'no');
     } elseif ($row->autoload !== 'no') {
         $wpdb->update($wpdb->options, ['autoload' => 'no'], ['option_name' => $option]);
-        // 让 alloptions 立刻失效，避免旧缓存干扰
+        // Invalidate alloptions immediately to avoid old cache interference
         wp_cache_delete('alloptions', 'options');
     }
 
-    // 短路读取，任何 get_option('aether_settings') 都直接命中数据库，绕开对象缓存
+    // Short-circuit read, any get_option('aether_settings') hits database directly, bypassing object cache
     add_filter("pre_option_{$option}", function ($pre, $opt, $default) use ($wpdb) {
         $value = $wpdb->get_var($wpdb->prepare(
             "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
@@ -85,7 +85,7 @@ add_action('plugins_loaded', function () {
 }, 0);
 
 /**
- * 插件主类
+ * Main plugin class
  */
 class Aether
 {
@@ -93,7 +93,7 @@ class Aether
     private static $instance = null;
 
     /**
-     * 获取单例实例
+     * Get singleton instance
      */
     public static function getInstance()
     {
@@ -104,39 +104,39 @@ class Aether
     }
 
     /**
-     * 构造函数
+     * Constructor
      */
     private function __construct()
     {
-        // PHP 保护系统必须最早初始化（直接加载，不等待钩子）
+        // PHP protection system must initialize earliest (load directly, no hook waiting)
         $this->init_php_protection();
 
-        // 初始化钩子
+        // Initialize hooks
         add_action('init', [$this, 'init']);
         add_action('admin_menu', [$this, 'add_admin_menu']);
 
-        // 隐藏 Tangible 菜单
+        // Hide Tangible menu
         add_action('admin_menu', [$this, 'hide_tangible_menu'], 999);
 
-        // 激活/停用钩子
-        // 联系表单激活钩子
+        // Activation/deactivation hooks
+        // Contact form activation hook
         register_activation_hook(__FILE__, function () {
             \Aether\Services\Aether_Contact_Form_Service::activate();
         });
 
-        // 原有激活钩子
+        // Original activation hook
         register_activation_hook(__FILE__, [$this, 'activate']);
         register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 
-        // 插件升级钩子（检测升级并执行迁移）
+        // Plugin upgrade hook (detect upgrades and execute migrations)
         add_action('upgrader_process_complete', [$this, 'on_plugin_upgrade'], 10, 2);
 
-        // 图片优化：WP 完成尺寸生成后标记 ready（优先级 999 确保在所有插件之后）
+        // Image optimization: Mark ready after WP completes size generation (priority 999 ensures after all plugins)
         add_filter('wp_generate_attachment_metadata', [$this, 'mark_attachment_ready_for_optimization'], 999, 2);
     }
 
     /**
-     * 初始化 PHP 保护系统
+     * Initialize PHP protection system
      */
     private function init_php_protection()
     {
@@ -150,7 +150,7 @@ class Aether
                     Aether_PHP_Protection_Manager::getInstance();
                 }
             } catch (Exception $e) {
-                // 记录错误但不影响插件其他功能
+                // Log error without affecting other plugin functions
                 if (defined('WP_DEBUG') && WP_DEBUG) {
                     error_log('[Aether] Failed to initialize PHP Protection: ' . $e->getMessage());
                 }
@@ -159,18 +159,18 @@ class Aether
     }
 
     /**
-     * 初始化插件
+     * Initialize plugin
      */
     public function init()
     {
-        // 注册自定义图片尺寸（直接调用，不需要再加 hook）
+        // Register custom image sizes (call directly, no hook needed)
         $this->register_custom_image_sizes();
 
-        // 添加 WASM MIME 类型支持（用于 jsquash 库）
+        // Add WASM MIME type support (for jsquash library)
         add_filter('upload_mimes', [$this, 'add_wasm_mime_type']);
         add_filter('wp_check_filetype_and_ext', [$this, 'check_wasm_filetype'], 10, 4);
 
-        // 初始化各个模块
+        // Initialize various modules
         Aether_Editor::getInstance();
         Aether_API::getInstance();
         Aether_Settings::getInstance();
@@ -180,28 +180,28 @@ class Aether
         Aether_Submission_Geo_Backfill_Service::init();
         Aether_Submission_Geo_Frontend_Service::getInstance();
 
-        // 初始化 PHP 处理器 - 用于处理普通页面中的 PHP 代码
+        // Initialize PHP processor - handles PHP code in regular pages
         Aether_PHP_Processor::getInstance();
 
-        // 使用模板覆盖系统，不再强制包裹标签
+        // Use template override system, no longer force wrapper tags
         Aether_Template_Override::getInstance();
 
-        // 初始化图片优化系统
+        // Initialize image optimization system
         if (class_exists('Aether_Image_Optimizer')) {
             Aether_Image_Optimizer::get_instance();
         }
 
-        // 初始化 HTML 优化服务（保存时生成优化版本）
+        // Initialize HTML optimization service (generate optimized version on save)
         if (class_exists('Aether_HTML_Optimization_Service')) {
             Aether_HTML_Optimization_Service::get_instance();
         }
 
-        // 初始化图片清理服务（删除图片时同步清理 WebP）
+        // Initialize image cleanup service (sync cleanup WebP when deleting images)
         if (class_exists('Aether_Image_Cleanup_Service')) {
             Aether_Image_Cleanup_Service::get_instance();
         }
 
-        // 初始化 HTML 优化渲染 Filter（前端输出 picture 标签）
+        // Initialize HTML optimization render Filter (frontend outputs picture tag)
         if (class_exists('Aether_HTML_Render_Filter')) {
             Aether_HTML_Render_Filter::get_instance();
             if (defined('AETHER_DEBUG') && AETHER_DEBUG) {
@@ -213,20 +213,20 @@ class Aether
             }
         }
 
-        // 加载生产模式管理器（已废弃，仅保留缓存清理功能）
+        // Load production mode manager (deprecated, keep only cache cleanup function)
         require_once AETHER_PATH . 'includes/services/core/class-production-mode-manager.php';
 
-        // 加载模板编译管理器（页面级 CSS 编译的核心）
+        // Load template compilation manager (core of page-level CSS compilation)
         require_once AETHER_PATH . 'includes/services/core/class-template-compile-manager.php';
         Aether_Template_Compile_Manager::init();
 
-        // 加载数据迁移脚本
+        // Load data migration scripts
         require_once AETHER_PATH . 'includes/migrations/add-css-indexes.php';
         require_once AETHER_PATH . 'includes/migrations/migrate-to-page-level-css.php';
         require_once AETHER_PATH . 'includes/migrations/rollback-page-level-css.php';
         require_once AETHER_PATH . 'includes/migrations/restore-picture-to-img.php';
 
-        // 版本检测与自动迁移
+        // Version detection and automatic migration
         add_action('admin_init', function() {
             if (!current_user_can('manage_options')) {
                 return;
@@ -235,10 +235,10 @@ class Aether
             $current_version = AETHER_VERSION;
             $saved_version = get_option('aether_version', '0.0.0');
 
-            // 检测到版本升级
+            // Version upgrade detected
             if (version_compare($saved_version, $current_version, '<')) {
 
-                // 升级到 1.1.29 时，执行迁移任务
+                // When upgrading to 1.1.29, execute migration tasks
                 if (version_compare($current_version, '1.1.29', '>=')) {
                     $migration_key = 'aether_migration_v1_1_29';
 
@@ -253,18 +253,18 @@ class Aether
                             aether_migrate_disable_auto_optimization(true);
                         }
 
-                        // 标记已执行
+                        // Mark as executed
                         update_option($migration_key, current_time('mysql'));
                     }
                 }
 
-                // 升级到 1.1.35 时：重置旧版 webhook_enabled，防止新 Webhook 功能误用遗留配置
+                // When upgrading to 1.1.35: Reset legacy webhook_enabled to prevent new Webhook features from misusing legacy configuration
                 if (version_compare($saved_version, '1.1.35', '<')) {
                     $migration_key = 'aether_migration_v1_1_35_webhook';
                     if (!get_option($migration_key)) {
                         $settings = get_option('aether_settings', []);
                         if (is_array($settings) && isset($settings['submissions']['webhook_enabled']) && $settings['submissions']['webhook_enabled']) {
-                            // 旧版遗留的 webhook_enabled=true，但没有新的 webhook_secret_key → 清掉
+                            // Legacy webhook_enabled=true without new webhook_secret_key → clear it
                             if (empty($settings['submissions']['webhook_secret_key'])) {
                                 $settings['submissions']['webhook_enabled'] = false;
                                 update_option('aether_settings', $settings);
@@ -276,54 +276,54 @@ class Aether
 
                 $this->maybe_initialize_submission_geo_backfill($saved_version, $current_version);
 
-                // 更新保存的版本号
+                // Update saved version number
                 update_option('aether_version', $current_version);
             }
         }, 5);
 
-        // 注册智能 CSS 编译计划任务 Hook（用于后台重编译）
+        // Register smart CSS compilation cron hook (for backend recompilation)
         if (class_exists('Aether_Smart_CSS_Compiler_Service')) {
             Aether_Smart_CSS_Compiler_Service::register_cron_hook();
         }
 
-        // 加载 Admin Bar「使用 aether 编辑」按钮
+        // Load Admin Bar 'Edit with Aether' button
         require_once AETHER_PATH . 'includes/admin/class-admin-bar-aether-edit.php';
 
-        // 加载 Admin Bar 速度优化提醒（未开启时显示）
+        // Load Admin Bar speed optimization reminder (shown when not enabled)
         // require_once AETHER_PATH . 'includes/admin/class-admin-bar-notice.php';  // Disabled - free version
 
-        // 加载插件信息处理器
+        // Load plugin info processor
         // require_once AETHER_PATH . 'includes/admin/class-plugin-info.php';  // Disabled - free version
 
-        // 加载远程通知服务
+        // Load remote notification service
         // require_once AETHER_PATH . 'includes/services/class-remote-notifications-service.php';  // Disabled - free version
 
-        // 加载 Admin 通知显示 (仅在后台)
+        // Load Admin notification display (backend only)
         if (is_admin()) {
             // require_once AETHER_PATH . 'includes/admin/class-admin-notifications.php';  // Disabled - free version
         }
 
-        // 临时禁用 SSL 验证以解决 LibreSSL 握手问题
+        // Temporarily disable SSL verification to resolve LibreSSL handshake issues
         add_filter('aether_proxy_verify_ssl', '__return_false');
 
-        // 加载 WP-CLI 命令
+        // Load WP-CLI commands
         if (defined('WP_CLI') && WP_CLI) {
             require_once AETHER_PATH . 'includes/services/core/class-php-fix-command.php';
             require_once AETHER_PATH . 'includes/services/core/class-cache-cli-command.php';
         }
 
-        // 加载文本域
+        // Load text domain
         load_plugin_textdomain('aether', false, dirname(AETHER_BASENAME) . '/languages');
 
-        // 调试功能 - 只在调试模式下启用
+        // Debug feature - only enabled in debug mode
         if (defined('AETHER_DEBUG') && AETHER_DEBUG) {
             add_action('init', [$this, 'handle_debug_request']);
         }
 
-        // 加载插件更新器
+        // Load plugin updater
         // require_once AETHER_PATH . 'includes/class-plugin-updater.php';  // Disabled - free version
 
-        // 注册 post meta 字段以支持 REST API
+        // Register post meta fields to support REST API
         register_post_meta('', '_aether_edited', [
             'type' => 'boolean',
             'description' => 'Whether the post was edited with aether',
@@ -345,10 +345,10 @@ class Aether
         ]);
 
 
-        // 输出提取的 CSS - 使用较晚的优先级确保其他插件不会干扰
+        // Output extracted CSS - use later priority to ensure other plugins don't interfere
         add_action('wp_head', [$this, 'output_extracted_css'], 100);
 
-        // 初始化 Swiper.js 按需加载器
+        // Initialize Swiper.js on-demand loader
         \Aether\Core\Swiper_Loader::init();
     }
 
@@ -357,15 +357,15 @@ class Aether
      */
     public function register_custom_image_sizes()
     {
-        // 从配置类读取尺寸定义，保持单一数据源
+        // Read size definitions from config class, maintain single source of truth
         $sizes = Aether_Image_Sizes::get_sizes();
 
         foreach ($sizes as $size) {
             add_image_size(
-                "aether_{$size}",  // 尺寸名称
-                $size,            // 宽度
-                9999,             // 高度（不限制）
-                false             // 不裁剪
+                "aether_{$size}",  // Size name
+                $size,            // Width
+                9999,             // Height (unlimited)
+                false             // No crop
             );
         }
     }
@@ -375,14 +375,14 @@ class Aether
      */
     public function add_admin_menu()
     {
-        // 始终显示aether菜单，让设置页面本身处理token检查
-        // 这样用户可以通过菜单访问token设置界面
+        // Always show aether menu, let settings page itself handle token checks
+        // This allows users to access token settings via menu
         add_menu_page(
             __('aether', 'aether'),
             __('aether', 'aether'),
             'manage_options',
             'aether',
-            [Aether_Settings::getInstance(), 'render_settings_page'], // 直接使用设置页面回调
+            [Aether_Settings::getInstance(), 'render_settings_page'], // Directly use settings page callback
             'dashicons-edit-page',
             30
         );
@@ -524,14 +524,14 @@ class Aether
     }
 
     /**
-     * 隐藏 Tangible 菜单
+     * Hide Tangible menu
      */
     public function hide_tangible_menu()
     {
-        // 移除 Tangible 主菜单
+        // Remove Tangible main menu
         remove_menu_page('tangible');
 
-        // 移除 Tangible 的子菜单项（如果有的话）
+        // Remove Tangible submenu items (if any)
         remove_submenu_page('tangible', 'edit.php?post_type=tangible_template');
         remove_submenu_page('tangible', 'edit.php?post_type=tangible_layout');
         remove_submenu_page('tangible', 'edit.php?post_type=tangible_style');
@@ -539,7 +539,7 @@ class Aether
         remove_submenu_page('tangible', 'edit.php?post_type=tangible_content');
         remove_submenu_page('tangible', 'tangible_template_import_export');
 
-        // 移除顶部管理栏中的 Tangible 菜单
+        // Remove Tangible menu from top admin bar
         add_action('admin_bar_menu', function ($wp_admin_bar) {
             $wp_admin_bar->remove_node('tangible');
         }, 999);
@@ -569,7 +569,7 @@ class Aether
      */
     public function check_wasm_filetype($data, $file, $filename, $mimes)
     {
-        // 检查文件扩展名是否为 .wasm
+        // Check if file extension is .wasm
         if (substr($filename, -5) === '.wasm') {
             $data['ext'] = 'wasm';
             $data['type'] = 'application/wasm';
@@ -582,9 +582,9 @@ class Aether
      */
     public function handle_debug_request()
     {
-        // 检查是否有调试参数
+        // Check if debug parameters exist
         if (isset($_GET['aether_debug_taxonomies']) && $_GET['aether_debug_taxonomies'] === '1') {
-            // 包含调试页面
+            // Include debug page
             include AETHER_PATH . 'debug-taxonomies.php';
             exit;
         }
@@ -614,24 +614,24 @@ class Aether
      */
     public function mark_attachment_ready_for_optimization($metadata, $attachment_id)
     {
-        // 只处理图片类型
+        // Only process image types
         $mime_type = get_post_mime_type($attachment_id);
         if (!$mime_type || strpos($mime_type, 'image/') !== 0) {
             return $metadata;
         }
 
-        // 设置 ready 标记
+        // Set ready marker
         update_post_meta($attachment_id, '_aether_ready_for_optimization', '1');
 
         return $metadata;
     }
 }
 
-// 初始化插件
+// Initialize plugin
 Aether::getInstance();
 
-// 注册联系表单菜单
+// Register contact form menu
 add_action('admin_menu', ['\Aether\Services\Aether_Contact_Form_Service', 'register_menu']);
 
-// 注册联系表单短代码
+// Register contact form shortcode
 add_shortcode('aether_contact_form', ['\Aether\Services\Aether_Contact_Form_Service', 'shortcode']);

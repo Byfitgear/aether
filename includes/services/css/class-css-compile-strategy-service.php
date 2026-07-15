@@ -20,7 +20,7 @@ class Aether_CSS_Compile_Strategy_Service
     private static $instance = null;
 
     /**
-     * 获取单例实例
+     * Get singleton instance
      */
     public static function get_instance()
     {
@@ -305,7 +305,7 @@ class Aether_CSS_Compile_Strategy_Service
     }
 
     /**
-     * 获取公共模板内容
+     * Get common template content
      * 
      * @return array
      */

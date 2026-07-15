@@ -19,7 +19,7 @@ class Aether_HTML_Render_Filter
     private static $instance = null;
 
     /**
-     * 获取单例实例
+     * Get singleton instance
      */
     public static function get_instance()
     {

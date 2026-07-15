@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 class Aether_Production_Mode_Manager {
 
     /**
-     * 初始化钩子
+     * Initialize hooks
      *
      * @deprecated 2.0.0 生产模式已废弃，仅保留缓存清理钩子
      */
@@ -153,5 +153,5 @@ class Aether_Production_Mode_Manager {
     }
 }
 
-// 初始化钩子
+// Initialize hooks
 Aether_Production_Mode_Manager::init();
