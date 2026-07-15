@@ -1,6 +1,6 @@
 <?php
 /**
- * Aether Plugin Updater (Disabled - no remote update checking)
+ * Aether Plugin Updater (Disabled)
  */
 if (!defined('ABSPATH')) { exit; }
 class Aether_Plugin_Updater {
