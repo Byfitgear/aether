@@ -1,7 +1,6 @@
 <?php
 /**
  * Aether Contact Form Service
- * Handles contact form submissions via shortcode and admin management.
  */
 
 namespace Aether\Services;
@@ -25,12 +24,9 @@ class Aether_Contact_Form_Service {
         $charset = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE {$table} (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            name VARCHAR(255) NOT NULL,
-            email VARCHAR(255) NOT NULL,
-            subject VARCHAR(500) DEFAULT '',
-            message TEXT NOT NULL,
-            ip_address VARCHAR(45) DEFAULT '',
-            status VARCHAR(20) DEFAULT 'new',
+            name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL,
+            subject VARCHAR(500) DEFAULT '', message TEXT NOT NULL,
+            ip_address VARCHAR(45) DEFAULT '', status VARCHAR(20) DEFAULT 'new',
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id), KEY status (status)
         ) {$charset};";
@@ -138,7 +134,7 @@ class Aether_Contact_Form_Service {
         <?php if (get_transient('aether_cf_deleted')): ?><div class="notice notice-success is-dismissible"><p><?php esc_html_e('Deleted.','aether'); ?></p></div><?php delete_transient('aether_cf_deleted'); endif; ?>
         <?php if ($rows): ?>
         <table class="wp-list-table widefat fixed striped"><thead><tr>
-            <th>#</th><th><?php esc_html_e('Name','aether');?></th><th><?php esc_html_e('Email','aether);?></th>
+            <th>#</th><th><?php esc_html_e('Name','aether');?></th><th><?php esc_html_e('Email','aether');?></th>
             <th><?php esc_html_e('Subject','aether');?></th><th><?php esc_html_e('Status','aether');?></th>
             <th><?php esc_html_e('Date','aether');?></th><th><?php esc_html_e('Actions','aether');?></th>
         </tr></thead><tbody>
