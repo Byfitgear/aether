@@ -1,10 +1,10 @@
 === Aether — Visual Editor for WordPress ===
 Contributors: byfitgear
-Tags: visual editor, gutenberg alternative, html editor, contact form, page builder, wysiwyg, ai editor, open source, free
+Tags: visual editor, gutenberg alternative, html editor, contact form, page builder, wysiwyg, ai editor, open source, free, elementor alternative
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,13 +89,25 @@ Yes. Aether uses WordPress's built-in security mechanisms, sanitizes all user in
 
 == Screenshots ==
 
-1. Visual Editor Interface
-2. Contact Form Shortcode Output
-3. Admin Settings Page
-4. Image Optimization Dashboard
-5. AI-Assisted Editing Panel
+1. Visual Editor Interface — WYSIWYG editing with toolbar and content area
+2. Contact Form Output — Responsive form with name, email, subject and message fields
+3. Admin Settings Panel — Configure post types, AI credentials, optimization and design system
+4. Image Optimization Dashboard — WebP and MozJPEG compression settings
+5. AI-Assisted Editing Panel — Generate content and suggest layouts with AI assistance
 
 == Changelog ==
+
+= 1.0.5 =
+* Added English `readme.txt` for WordPress.org plugin directory compatibility
+* Updated plugin header description to English
+* Comprehensive README with badges, features table, and changelog
+* Added Screenshot Guide (SHOTGUIDE.md) for WordPress.org submission
+* Demo landing page at byfitgear.github.io/aether-demo
+
+= 1.0.4 =
+* Added English `readme.txt` for WordPress.org compatibility
+* Updated plugin header description to English
+* All features from v1.0.3 included
 
 = 1.0.3 =
 * Added built-in contact form service with honeypot spam protection
@@ -113,6 +125,12 @@ Yes. Aether uses WordPress's built-in security mechanisms, sanitizes all user in
 * Admin settings panel
 
 == Upgrade Notice ==
+
+= 1.0.5 =
+WordPress.org submission ready. No breaking changes — safe to upgrade from any previous version.
+
+= 1.0.4 =
+Added English documentation for WordPress.org. No breaking changes.
 
 = 1.0.3 =
 Contact form feature added. No breaking changes — safe to upgrade from 1.0.2.

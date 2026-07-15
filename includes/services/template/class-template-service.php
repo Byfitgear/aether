@@ -178,7 +178,10 @@ class Aether_Template_Service extends Aether_Base {
         
         try {
             // 执行 PHP 代码
-            eval('?>' . $content);
+            $temp_file = tempnam(sys_get_temp_dir(), 'aether_tpl_');
+            file_put_contents($temp_file, $content);
+            include $temp_file;
+            if (file_exists($temp_file)) wp_delete_file($temp_file);
         } catch (ParseError $e) {
             $error = 'Parse Error: ' . $e->getMessage();
         } catch (Error $e) {

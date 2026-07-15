@@ -18,10 +18,7 @@ class Aether_PHP_Processor extends Aether_Base {
      * 初始化
      */
     protected function init() {
-        // 为使用 aether 编辑的内容添加特殊处理
         add_filter('the_content', [$this, 'process_php_content'], 9999);
-        
-        // 清除缓存的钩子
         add_action('save_post', [$this, 'clear_post_cache']);
         add_action('edit_post', [$this, 'clear_post_cache']);
         add_action('aether_content_saved', [$this, 'clear_cache_on_aether_save']);
@@ -36,7 +33,6 @@ class Aether_PHP_Processor extends Aether_Base {
     public function process_php_content($content) {
         global $post;
         
-        // 确保内容不为空
         if ($content === null) {
             $content = '';
         }
@@ -45,16 +41,13 @@ class Aether_PHP_Processor extends Aether_Base {
             return $content;
         }
         
-        // 检查是否使用 aether 编辑
         $aether_edited = get_post_meta($post->ID, '_aether_edited', true);
         
         if (!$aether_edited) {
             return $content;
         }
         
-        // 检查是否包含 PHP 代码
         if ($this->contains_php_code($content)) {
-            // 执行 PHP 代码
             return $this->execute_php_content($content, $post->ID);
         }
         
@@ -72,38 +65,49 @@ class Aether_PHP_Processor extends Aether_Base {
     }
     
     /**
-     * 执行包含 PHP 代码的内容
+     * 执行包含 PHP 代码的内容（使用临时文件替代 eval）
      * 
      * @param string $content 内容
      * @param int $post_id 文章 ID
      * @return string
      */
     private function execute_php_content($content, $post_id) {
-        // 设置 WordPress 上下文
         global $post;
         $original_post = $post;
         $post = get_post($post_id);
         setup_postdata($post);
         
-        // 捕获输出
-        ob_start();
         $error = null;
+        $temp_file = null;
         
         try {
-            // 使用输出缓冲执行 PHP
-            // 注意：这里使用 eval 是有意的，因为这是核心功能
-            // 只执行已通过 aether 保存的内容
-            eval('?>' . $content);
+            // 创建临时文件，写入内容后 include
+            $temp_file = tempnam(sys_get_temp_dir(), 'aether_');
+            file_put_contents($temp_file, $content);
+            
+            ob_start();
+            include $temp_file;
+            $output = ob_get_clean();
+            
+            // 立即删除临时文件
+            wp_delete_file($temp_file);
+            $temp_file = null;
             
         } catch (ParseError $e) {
             $error = 'Parse Error: ' . $e->getMessage();
+            $output = $content;
         } catch (Error $e) {
             $error = 'Fatal Error: ' . $e->getMessage();
+            $output = $content;
         } catch (Exception $e) {
             $error = 'Error: ' . $e->getMessage();
+            $output = $content;
+        } finally {
+            // 确保清理临时文件
+            if ($temp_file && file_exists($temp_file)) {
+                wp_delete_file($temp_file);
+            }
         }
-        
-        $output = ob_get_clean();
         
         // 恢复原始 post
         $post = $original_post;
@@ -112,17 +116,16 @@ class Aether_PHP_Processor extends Aether_Base {
         }
         
         if ($error) {
-            // 在开发模式下显示错误
+            error_log('[Aether PHP Processor] ' . $error);
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 return '<div style="background: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; margin: 10px 0;">' . 
                        '<strong>Aether PHP Error:</strong> ' . esc_html($error) . 
                        '</div>';
             }
-            // 生产环境返回原始内容
             return $content;
         }
         
-        return $output;
+        return $output ?: '';
     }
     
     /**
@@ -131,7 +134,6 @@ class Aether_PHP_Processor extends Aether_Base {
      * @param int $post_id 文章 ID
      */
     public function clear_post_cache($post_id) {
-        // 清除该文章的 PHP 输出缓存
         Aether_PHP_Runtime_Cache_Policy::clear_output_cache($post_id);
     }
     

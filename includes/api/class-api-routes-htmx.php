@@ -107,23 +107,33 @@ class Aether_API_Routes_HTMX extends Aether_API_Routes_Base {
             }
         }
         
-        // Execute code with automatic output buffering
-        ob_start();
-        $execution_completed = false;
+        // Execute code using temp file instead of eval()
+        $temp_file = null;
+        $error = null;
         
         try {
             @set_time_limit(10);
-            eval('?>' . $code);
-            $execution_completed = true;
+            $temp_file = tempnam(sys_get_temp_dir(), 'aether_htmx_');
+            file_put_contents($temp_file, $code);
+            
+            ob_start();
+            include $temp_file;
+            $output = ob_get_clean();
+            
+            if ($temp_file && file_exists($temp_file)) {
+                wp_delete_file($temp_file);
+                $temp_file = null;
+            }
+            
         } catch (ParseError $e) {
-            ob_end_clean();
-            $this->show_error($e->getMessage(), $e->getLine());
+            $error = $e->getMessage();
+            if ($temp_file && file_exists($temp_file)) wp_delete_file($temp_file);
         } catch (Error $e) {
-            ob_end_clean();
-            $this->show_error($e->getMessage(), $e->getLine());
+            $error = $e->getMessage();
+            if ($temp_file && file_exists($temp_file)) wp_delete_file($temp_file);
         } catch (Exception $e) {
-            ob_end_clean();
-            $this->show_error($e->getMessage(), $e->getLine());
+            $error = $e->getMessage();
+            if ($temp_file && file_exists($temp_file)) wp_delete_file($temp_file);
         } finally {
             // Reset WordPress context
             $post = $original_post;
@@ -132,10 +142,12 @@ class Aether_API_Routes_HTMX extends Aether_API_Routes_Base {
             }
         }
         
-        // If execution completed, handle output
-        if ($execution_completed) {
-            $output = ob_get_contents();
-            ob_end_clean();
+        if ($error) {
+            $this->show_error($error, 0);
+            exit;
+        }
+        
+        // Handle output
             
             // If block_id was provided but no output, it wasn't handled
             if ($block_id && empty(trim($output))) {

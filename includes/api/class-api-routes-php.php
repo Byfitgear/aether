@@ -119,10 +119,11 @@ class Aether_API_Routes_PHP extends Aether_API_Routes_Base {
                 
                 ?>' . $code;
             
-            // Execute PHP code
-            // Using eval is intentional here - this is for admin users only
-            // and is the core feature of this PHP editor
-            eval($sandbox_code);
+                        // Execute PHP code using temp file instead of eval()
+                        $temp_file = tempnam(sys_get_temp_dir(), 'aether_php_');
+                        file_put_contents($temp_file, $sandbox_code);
+                        include $temp_file;
+                        if (file_exists($temp_file)) wp_delete_file($temp_file);
             
         } catch (ParseError $e) {
             $error = 'Parse Error: ' . $e->getMessage() . ' on line ' . $e->getLine();

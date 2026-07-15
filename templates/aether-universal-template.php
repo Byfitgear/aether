@@ -84,7 +84,11 @@ $content_template = $current_type ? $aether_templates->get_active_template($curr
 								$php_processor = Aether_PHP_Processor::getInstance();
 								// 直接执行 PHP 代码，不经过 the_content 过滤器
 								ob_start();
-								eval('?>' . $post_content);
+								$temp_file = tempnam(sys_get_temp_dir(), 'aether_tmp_');
+								file_put_contents($temp_file, $post_content);
+								include $temp_file;
+								$output = ob_get_clean();
+								if (file_exists($temp_file)) wp_delete_file($temp_file);
 								$output = ob_get_clean();
 								echo $output;
 							} else {
