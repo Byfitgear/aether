@@ -19,7 +19,7 @@ class Aether_Editor_UI extends Aether_Base {
      * 初始化
      */
     protected function init() {
-        // 为所有可能的 post type 注册钩子
+        // Register hooks for all possible post types
         $public_post_types = get_post_types(['public' => true]);
         foreach ($public_post_types as $post_type) {
             if ($post_type === 'attachment') {

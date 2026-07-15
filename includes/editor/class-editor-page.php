@@ -94,7 +94,7 @@ class Aether_Editor_Page extends Aether_Base {
         // 禁用自动保存
         wp_dequeue_script('autosave');
         
-        // 加载编辑器资源
+        // Load editor resources
         $this->assets->enqueue_editor_assets();
         
         // 添加全屏模式类

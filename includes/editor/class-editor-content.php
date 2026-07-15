@@ -87,7 +87,7 @@ class Aether_Editor_Content extends Aether_Base {
                 remove_filter('the_content', 'do_shortcode', 11);
 
                 // 注意：content_save_pre 过滤器已由 PHP Protection Manager 系统处理
-                // 不需要在显示阶段移除保存阶段的过滤器（无效操作）
+                // No need to remove save stage filters in display stage (invalid operation)
                 // 详见: includes/services/core/class-php-protection-manager.php
             }
         }

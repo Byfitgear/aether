@@ -179,7 +179,7 @@ class Aether_Unified_Proxy {
      * @return string 'development', 'staging', 或 'production'
      */
     private function get_environment_from_url() {
-        // 优先从当前请求的 referer 中读取
+        // Priority read from current request referer
         $referer = wp_get_referer();
         if ($referer && strpos($referer, 'dev=') !== false) {
             if (strpos($referer, 'dev=1') !== false) {
@@ -190,7 +190,7 @@ class Aether_Unified_Proxy {
             }
         }
 
-        // 其次从当前请求 URL 中读取
+        // Secondary read from current request URL
         if (isset($_GET['dev'])) {
             if ($_GET['dev'] === '1') {
                 return 'development';
@@ -200,7 +200,7 @@ class Aether_Unified_Proxy {
             }
         }
 
-        // 最后检查 AETHER_DEV_MODE 常量（向后兼容）
+        // Finally check AETHER_DEV_MODE constant (backward compatibility)
         if (defined('AETHER_DEV_MODE') && constant('AETHER_DEV_MODE')) {
             return 'development';
         }
@@ -220,7 +220,7 @@ class Aether_Unified_Proxy {
             $setting_key = substr($base_url, 9);
             $base_url = get_option($setting_key, '');
         } elseif (is_array($base_url)) {
-            // 从 URL 参数读取环境配置 (dev=1 本地, dev=2 staging, 默认 production)
+            // Read environment config from URL params (dev=1 local, dev=2 staging, default production)
             $env = $this->get_environment_from_url();
             $base_url = $base_url[$env] ?? $base_url['production'];
 
@@ -254,7 +254,7 @@ class Aether_Unified_Proxy {
             'endpoint_config' => $endpoint_config,
             'global_config' => $proxy_config['_global'] ?? [],
             'args' => $args,
-            'environment' => $env ?? 'production' // 记录使用的环境
+            'environment' => $env ?? 'production' // Record used environment
         ];
         
         // Add body for non-GET requests

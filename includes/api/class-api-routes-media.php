@@ -97,7 +97,7 @@ class Aether_API_Routes_Media extends Aether_API_Routes_Base {
             'methods' => WP_REST_Server::ALLMETHODS, // 允许所有方法，绕过 JSON 验证
             'callback' => [$this->media_upload_api, 'save_optimized'],
             'permission_callback' => [Aether_Permission_Service::class, 'check_rest_permission'],
-            'show_in_index' => false, // 不在 REST API 索引中显示
+            'show_in_index' => false, // Not displayed in REST API index
         ]);
 
         if (defined('WP_DEBUG') && WP_DEBUG) {

@@ -57,7 +57,7 @@ class Aether_Settings_Service
             return $default;
         }
 
-        // 从验证器获取默认值
+        // Get default value from validator
         if (!class_exists('Aether_Settings_Validator')) {
             require_once AETHER_PATH . 'includes/services/core/class-settings-validator.php';
         }

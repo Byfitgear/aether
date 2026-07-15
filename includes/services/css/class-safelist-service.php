@@ -53,7 +53,7 @@ class Aether_Safelist_Service
             'space-x-2', 'space-y-2', 'p-2', 'p-4', 'px-2', 'px-4', 'py-2', 'py-4',
         ];
 
-        // 交互/状态变体（合并两个原始集合）
+        // Interaction/state variants (merge two original collections)
         $state_variants = ['hover:', 'focus:', 'active:', 'disabled:', 'group-hover:', 'aria-expanded:'];
         $state_targets = ['block', 'hidden', 'inline-block', 'flex', 'underline', 'no-underline', 'opacity-0', 'opacity-100'];
 

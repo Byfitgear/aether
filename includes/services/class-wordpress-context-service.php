@@ -27,7 +27,7 @@ class Aether_WordPress_Context_Service extends Aether_Base {
         'include_plugins' => true,
         'posts_per_type' => 20,
         'minimal' => false,
-        // 优化字段用于AI：减少噪声字段
+        // Optimize fields for AI: reduce noise fields
         'optimize_for_ai' => true,
         // 限制每个类型最多返回的自定义字段数量
         'custom_field_limit' => 100,

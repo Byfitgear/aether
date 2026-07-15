@@ -376,7 +376,7 @@ class Aether_API_Routes_Content extends Aether_API_Routes_Base {
             return new WP_Error('forbidden', '无权编辑', ['status' => 403]);
         }
 
-        // 清除存储层的 CSS
+        // Clear storage layer的 CSS
         $storage = Aether_CSS_Storage_Service::get_instance();
         $storage->clear_page_css($post_id);
 

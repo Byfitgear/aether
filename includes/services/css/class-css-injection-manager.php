@@ -172,7 +172,7 @@ class Aether_CSS_Injection_Manager
             }
         }
 
-        // 使用 CDN（CDN 模式会单独注入字体）
+        // Use CDN (CDN mode injects fonts separately)
         $this->inject_cdn_mode();
     }
 
@@ -267,7 +267,7 @@ class Aether_CSS_Injection_Manager
             return false;
         }
 
-        // 使用 Hash Service 检查哈希值是否过期
+        // Use Hash Service to check哈希值是否过期
         if (class_exists('Aether_CSS_Hash_Service')) {
             $hash_service = Aether_CSS_Hash_Service::get_instance();
             return $hash_service->is_page_css_valid($post_id);
@@ -288,7 +288,7 @@ class Aether_CSS_Injection_Manager
             return false;
         }
 
-        // 使用 Hash Service 检查
+        // Use Hash Service to check
         if (class_exists('Aether_CSS_Hash_Service')) {
             $hash_service = Aether_CSS_Hash_Service::get_instance();
             return $hash_service->is_template_css_valid($template_type);
@@ -340,7 +340,7 @@ class Aether_CSS_Injection_Manager
             return 'single_' . $post_type;
         }
 
-        // 作者页（核心模板）
+        // Author page (core template)
         if (is_author()) {
             return 'author';
         }

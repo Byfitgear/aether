@@ -330,10 +330,10 @@ class Aether_API_Routes_Settings extends Aether_API_Routes_Base {
 
             update_option('aether_speed_optimization_enabled', $requested_enabled);
 
-            // 从关闭到开启：需要触发整站编译
+            // From disabled to enabled: need to trigger full site compilation
             $should_compile = !$previous_enabled && $requested_enabled;
 
-            // 从开启到关闭：清理所有已编译的 CSS
+            // From enabled to disabled: clean all compiled CSS
             if ($previous_enabled && !$requested_enabled) {
                 try {
                     if (class_exists('Aether_CSS_Storage_Service')) {

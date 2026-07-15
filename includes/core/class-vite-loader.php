@@ -36,7 +36,7 @@ class Aether_Vite_Loader extends Aether_Base
      */
     protected function init()
     {
-        // 不需要自动注册钩子
+        // No need to auto-register hooks
     }
 
     /**
@@ -47,7 +47,7 @@ class Aether_Vite_Loader extends Aether_Base
      */
     public function enqueue($entry, $deps = [])
     {
-        // 始终使用生产模式
+        // Always use production mode
         $this->enqueue_prod($entry, $deps);
     }
 
@@ -105,14 +105,14 @@ class Aether_Vite_Loader extends Aether_Base
             true
         );
 
-        // 传递配置到前端（编辑器需要图片尺寸配置）
+        // Pass config to frontend (editor needs image size config)
         if ($entry === 'editor') {
             wp_localize_script($script_handle, 'aetherConfig', [
                 'imageSizes' => Aether_Image_Sizes::get_sizes(),
             ]);
         }
 
-        // 传递版本号到设置页面
+        // Pass version number to settings page
         if ($entry === 'settings') {
             wp_localize_script($script_handle, 'aetherConfig', [
                 'version' => AETHER_VERSION,

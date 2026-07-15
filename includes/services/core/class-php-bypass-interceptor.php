@@ -73,7 +73,7 @@ class Aether_PHP_Bypass_Interceptor {
             return $data;
         }
 
-        // 从数据库读取当前的 post_content（aether 保存的原始内容）
+        // Read current post_content from database (original content saved by aether)
         global $wpdb;
         $current_content = $wpdb->get_var($wpdb->prepare(
             "SELECT post_content FROM {$wpdb->posts} WHERE ID = %d",

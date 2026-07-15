@@ -4,7 +4,7 @@
  *
  * 执行内容：
  * 1. 初始化所有现有页面的哈希值
- * 2. 清理旧的全局生产模式配置
+ * 2. Clean up old global production mode configuration
  * 3. 标记所有已编译页面为有效状态
  *
  * @package aether
@@ -40,7 +40,7 @@ function aether_migrate_to_page_level_css()
     ];
 
     try {
-        // 1. 获取当前的 header/footer 和设计系统哈希
+        // 1. Get current header/footer and design system hash
         if (!class_exists('Aether_CSS_Hash_Service')) {
             require_once AETHER_PATH . 'includes/services/css/class-css-hash-service.php';
         }
@@ -49,7 +49,7 @@ function aether_migrate_to_page_level_css()
         $header_footer_hash = $hash_service->get_header_footer_hash();
         $design_system_hash = $hash_service->get_design_system_hash();
 
-        // 2. 为所有已编译的页面初始化哈希值
+        // 2. Initialize hash values for all compiled pages
         $compiled_pages = $wpdb->get_col("
             SELECT DISTINCT post_id
             FROM {$wpdb->postmeta}
@@ -58,7 +58,7 @@ function aether_migrate_to_page_level_css()
         ");
 
         foreach ($compiled_pages as $post_id) {
-            // 添加哈希值（如果还没有）
+            // Add hash value (if not already present)
             if (!get_post_meta($post_id, '_aether_css_header_footer_hash', true)) {
                 update_post_meta($post_id, '_aether_css_header_footer_hash', $header_footer_hash);
             }
@@ -66,13 +66,13 @@ function aether_migrate_to_page_level_css()
                 update_post_meta($post_id, '_aether_css_design_system_hash', $design_system_hash);
             }
 
-            // 删除旧的版本号字段（如果存在）
+            // Delete old version number field (if exists)
             delete_post_meta($post_id, '_aether_css_version');
 
             $result['updated_pages']++;
         }
 
-        // 3. 清理旧的全局生产模式配置
+        // 3. Clean up old global production mode configuration
         $old_options = [
             'aether_production_mode',
             'aether_global_template_version',

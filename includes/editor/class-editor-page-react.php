@@ -88,7 +88,7 @@ class Aether_Editor_Page_React extends Aether_Editor_Page_Base {
     protected function get_inline_scripts($settings) {
         $script = '';
         
-        // 传递 CSS 编译器 API URL 到 window 对象
+        // Pass CSS compiler API URL to window object
         if (!empty($settings['css_compiler_api_url'])) {
             $script = 'window.aetherSettings = window.aetherSettings || {};' .
                      'window.aetherSettings.cssCompilerApiUrl = ' . json_encode($settings['css_compiler_api_url']) . ';';

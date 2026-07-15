@@ -46,7 +46,7 @@ $content_template = $current_type ? $aether_templates->get_active_template($curr
 			echo $template_service->render($header_template['content']);
 		} else {
 			// 如果没有自定义头部，尝试包含主题的 header.php
-			// 但避免递归调用
+			// But avoid recursive calls
 			$header_file = get_template_directory() . '/header.php';
 			if (file_exists($header_file)) {
 				// 直接包含文件内容，跳过 get_header() 以避免钩子
@@ -149,7 +149,7 @@ $content_template = $current_type ? $aether_templates->get_active_template($curr
 			echo $template_service->render($footer_template['content']);
 		} else {
 			// 如果没有自定义页脚，尝试包含主题的 footer.php
-			// 但避免递归调用
+			// But avoid recursive calls
 			$footer_file = get_template_directory() . '/footer.php';
 			if (file_exists($footer_file)) {
 				// 直接包含文件内容，跳过 get_footer() 以避免钩子

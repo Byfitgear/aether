@@ -33,7 +33,7 @@ class Aether_Image_Cleanup_Service {
      * Constructor
      */
     private function __construct() {
-        // 优先级 5：确保在其他插件可能清空 metadata 之前执行
+        // Priority 5: ensure execution before other plugins may clear metadata
         add_action('delete_attachment', [$this, 'cleanup_optimized_files'], 5, 1);
     }
 
@@ -129,7 +129,7 @@ class Aether_Image_Cleanup_Service {
             $upload_dir = wp_upload_dir();
             $optimized_base = $upload_dir['basedir'] . '/aether-optimized';
 
-            // 不要删除 aether-optimized 根目录
+            // Don't delete aether-optimized root directory
             if ($parent !== $optimized_base && strpos($parent, $optimized_base) === 0) {
                 $this->cleanup_empty_directory($parent);
             }

@@ -200,7 +200,7 @@ class Aether_Meta_Field_Discovery_Service
             // 这类键在数据库中为每一行生成，属于中间产物，不适合作为统一字段展示
             // 规则：任意位置包含 _<数字>_ 的 meta_key
             if (is_string($meta_key) && preg_match('/_\d+_/u', $meta_key)) {
-                // 但如果该键刚好是已注册的ACF字段名（极少见），仍保留
+                // But if key happens to be registered ACF field name (rare), still keep
                 if (!in_array($meta_key, $acf_field_names, true)) {
                     continue;
                 }

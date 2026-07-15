@@ -70,7 +70,7 @@ class Aether_Image_Processor {
 
         $max_width = Aether_Image_Sizes::get_max_width();
 
-        // 不需要缩放
+        // No scaling needed
         if ($original_width <= $max_width) {
             return [
                 'file' => $source_file,

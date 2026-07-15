@@ -33,7 +33,7 @@ class Aether_Production_Mode_Manager {
         // 字体设置变更后触发全站重编译（确保新字体 CSS 被包含）
         add_action('aether_font_settings_updated', [__CLASS__, 'on_font_settings_updated']);
 
-        // 以下钩子已废弃，不再需要自动切换生产模式
+        // Following hooks are deprecated, no longer need automatic production mode switching
         // add_action('aether_content_saved', [__CLASS__, 'on_aether_content_save']);
         // add_action('aether_template_saved', [__CLASS__, 'on_aether_content_save']);
         // add_action('aether_font_downloaded', [__CLASS__, 'on_aether_content_save']);

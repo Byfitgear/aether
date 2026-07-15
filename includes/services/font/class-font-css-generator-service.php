@@ -219,7 +219,7 @@ class Aether_Font_CSS_Generator_Service {
             $css .= "}\n\n";
         }
         
-        // 代码字体
+        // Code font
         if (!empty($settings['code_font'])) {
             $css .= "code, pre, .code-text, .wp-block-code {\n";
             $css .= "    font-family: '" . $settings['code_font'] . "', " . $this->font_stacks['monospace'] . ";\n";

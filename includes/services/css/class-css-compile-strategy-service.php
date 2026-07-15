@@ -240,7 +240,7 @@ class Aether_CSS_Compile_Strategy_Service
             return false;
         }
 
-        // 从设置中获取排除的模板
+        // Get excluded templates from settings
         $excluded_templates = Aether_Settings_Service::get('excluded_templates', array(
             'page-landing.php',
             'template-landing.php',

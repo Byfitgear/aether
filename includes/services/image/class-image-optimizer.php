@@ -71,7 +71,7 @@ class Aether_Image_Optimizer {
         add_action('delete_attachment', [$this, 'delete_optimized_files']);
 
         // 文件名规范化：特殊字符 → -，避免文件名/URL 不一致
-        // 优先级 5 确保在 WordPress 默认处理（优先级 10）之前执行
+        // Priority 5 ensures execution before WordPress default processing (priority 10)
         // 这样特殊字符先被我们转成 -，而不是被 WordPress 直接移除
         add_filter('sanitize_file_name', [$this, 'normalize_filename'], 5);
     }

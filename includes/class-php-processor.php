@@ -138,7 +138,7 @@ class Aether_PHP_Processor extends Aether_Base {
     }
     
     /**
-     * 当通过 aether 保存内容时清除缓存
+     * 当通过 aether 保存内容时Clear cache
      * 
      * @param array $data 保存的数据
      */

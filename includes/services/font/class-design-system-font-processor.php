@@ -37,7 +37,7 @@ class Aether_Design_System_Font_Processor
                 return ['fonts_count' => 0, 'fonts_downloaded' => 0]; // 没有字体需要处理
             }
             
-            // 3. 下载所有字体并生成 CSS
+            // 3. Download all fonts并生成 CSS
             $download_result = self::download_and_generate_css($font_imports);
             
             return [
@@ -54,7 +54,7 @@ class Aether_Design_System_Font_Processor
     }
     
     /**
-     * 下载字体并生成 CSS
+     * Download font并生成 CSS
      * 
      * @param array $font_imports 提取的字体信息
      * @return array 下载结果统计
@@ -67,7 +67,7 @@ class Aether_Design_System_Font_Processor
         $css = '';
         $downloaded_count = 0;
         
-        // 下载所有字体
+        // Download all fonts
         foreach ($font_imports as $font_info) {
             $family = $font_info['family'];
             $weights = $font_info['weights'];
@@ -100,7 +100,7 @@ class Aether_Design_System_Font_Processor
         
         // Minify CSS
         if (!empty($css)) {
-            // 使用 CSS 生成器中的 minify 方法
+            // Use minify method from CSS generator
             // 由于 minify_css 是 private 方法，我们需要使用反射或者直接实现 minify
             $css = self::minify_css($css);
         }

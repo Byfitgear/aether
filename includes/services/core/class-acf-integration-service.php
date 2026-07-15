@@ -444,7 +444,7 @@ class Aether_ACF_Integration_Service {
         $has_relevant_rule = false;
         $all_match = true;
 
-        // 与当前 post 上下文无关的规则类型（用于 user、comment、widget 等）
+        // Rule types unrelated to current post context (for user, comment, widget, etc.)
         $irrelevant_params = [
             'user_role',
             'user_form',
@@ -561,7 +561,7 @@ class Aether_ACF_Integration_Service {
             // 8. taxonomy 规则 - 用于 taxonomy term 编辑页面，不是 post
             elseif ($param === 'taxonomy') {
                 // taxonomy 规则用于 term 编辑页面，不匹配任何 post_type
-                // 但我们不标记为 relevant，让其他规则决定
+                // But we don't mark as relevant, let other rules decide
                 continue;
             }
             // 9. 动态 taxonomy 名称作为 param（如 category, post_tag, product_cat）

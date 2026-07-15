@@ -243,12 +243,12 @@ class Aether
                     $migration_key = 'aether_migration_v1_1_29';
 
                     if (!get_option($migration_key)) {
-                        // 1. 还原 picture 标签为 img
+                        // 1. Restore picture tags to img
                         if (function_exists('aether_migrate_restore_picture_to_img')) {
                             aether_migrate_restore_picture_to_img(true);
                         }
 
-                        // 2. 关闭速度优化和图片优化
+                        // 2. Disable speed optimization and image optimization
                         if (function_exists('aether_migrate_disable_auto_optimization')) {
                             aether_migrate_disable_auto_optimization(true);
                         }

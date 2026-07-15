@@ -61,7 +61,7 @@ class Aether_HTML_Optimization_Service
         // Aether 编辑器保存内容时生成优化 HTML（仅 Page）
         add_action('aether_content_saved', [$this, 'on_content_saved'], 20, 1);
 
-        // 任何方式保存 Page 时清除优化 HTML（确保不会输出陈旧内容）
+        // Clear optimized HTML when saving Pages in any way (ensure stale content not output)
         // 如果是通过 aether 编辑器保存，会先清除再重新生成
         add_action('save_post_page', [$this, 'on_page_saved'], 5, 1);
     }
@@ -340,7 +340,7 @@ class Aether_HTML_Optimization_Service
         $enabled = (bool) $enabled;
         $result = update_option(self::OPTION_ENABLED, $enabled);
 
-        // 清除缓存
+        // Clear cache
         delete_transient('aether_image_optimization_enabled_cache');
 
         return $result;
@@ -560,7 +560,7 @@ class Aether_HTML_Optimization_Service
                 continue;
             }
 
-            // 从 URL 获取 attachment ID
+            // Get attachment ID from URL
             $attachment_id = $this->get_attachment_id_from_url($img_info['src']);
             if (!$attachment_id) {
                 $result .= $img_tag;
@@ -853,7 +853,7 @@ class Aether_HTML_Optimization_Service
     private static $url_cache = [];
 
     /**
-     * 从 URL 获取 attachment ID（带静态缓存）
+     * Get attachment ID from URL（带静态缓存）
      *
      * @param string $url 图片 URL
      * @return int|null attachment ID

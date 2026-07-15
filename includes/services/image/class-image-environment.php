@@ -38,7 +38,7 @@ class Aether_Image_Environment {
             'recommendation' => 'none',
         ];
 
-        // 优先推荐 Imagick（性能更好，格式支持更全）
+        // Imagick recommended (better performance, more format support)
         if ($result['imagick']['available']) {
             $result['recommendation'] = 'imagick';
         } elseif ($result['gd']['available']) {

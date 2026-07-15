@@ -486,7 +486,7 @@ class Aether_Cache_Helper
     {
         self::clear_aether_cache();      // 对象缓存
         self::clear_page_cache($force); // 页面缓存
-        // 不清理 OPcache - 需要时手动调用 clear_opcache()
+        // Don't clean OPcache - manually call clear_opcache() when needed
     }
 
     /**

@@ -91,7 +91,7 @@ class Aether_PHP_Protection_Manager {
     private function scan_protected_posts() {
         global $wpdb;
 
-        // 从缓存获取
+        // Get from cache
         $cached = wp_cache_get('aether_protected_posts', 'aether');
         if (false !== $cached) {
             $this->protected_posts = $cached;
@@ -203,7 +203,7 @@ class Aether_PHP_Protection_Manager {
                 $php_code = preg_replace('/<\/?div>/i', '', $php_code);
                 $php_code = preg_replace('/<\/?span>/i', '', $php_code);
 
-                // 不要压缩空白，保留原有格式
+                // Don't compress whitespace, preserve original format
                 return '<?php' . $php_code . '?>';
             },
             $content

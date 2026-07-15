@@ -94,7 +94,7 @@ class Aether_Font_Downloader_Service
             ];
         }
 
-        // 下载字体文件，优先 woff2，其次 woff，最后 ttf
+        // Download font文件，优先 woff2，其次 woff，最后 ttf
         $preferred_formats = ['.woff2', '.woff', '.ttf'];
 
         foreach ($preferred_formats as $format) {

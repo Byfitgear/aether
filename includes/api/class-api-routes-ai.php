@@ -166,7 +166,7 @@ class Aether_API_Routes_AI extends Aether_API_Routes_Base
         // 构建 assistant workflow 请求
         $proxy = Aether_Unified_Proxy::get_instance();
 
-        // 从 messages 数组中提取内容
+        // Extract content from messages array
         $selected_code = '';
         $user_prompt = '';
 
@@ -341,7 +341,7 @@ class Aether_API_Routes_AI extends Aether_API_Routes_Base
             return $this->error_response($error_message);
         }
 
-        // 代理返回的数据在 data 字段中
+        // Data returned by proxy is in data field
         $api_response = $result['data'] ?? [];
 
         // 提取模型列表
@@ -404,7 +404,7 @@ class Aether_API_Routes_AI extends Aether_API_Routes_Base
             return $this->error_response($error_message);
         }
 
-        // 代理返回的数据在 data 字段中
+        // Data returned by proxy is in data field
         $api_response = $result['data'] ?? [];
 
         return $this->success_response([

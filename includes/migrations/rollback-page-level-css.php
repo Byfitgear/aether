@@ -30,19 +30,19 @@ function aether_emergency_rollback()
     ];
 
     try {
-        // 1. 清除所有编译 CSS 标记（强制使用 CDN）
+        // 1. Clear all compiled CSS markers (force use CDN)
         $result['cleared_meta'] = $wpdb->query("
             DELETE FROM {$wpdb->postmeta}
             WHERE meta_key = '_aether_has_compiled_css'
         ");
 
-        // 2. 清除存储层
+        // 2. Clear storage layer
         if (class_exists('Aether_CSS_Storage_Service')) {
             $storage = Aether_CSS_Storage_Service::get_instance();
             $storage->clear_all_css();
         }
 
-        // 3. 停止所有重编译任务
+        // 3. Stop all recompilation tasks
         $task_options = [
             'aether_recompile_progress',
             'aether_recompile_offset',
@@ -57,7 +57,7 @@ function aether_emergency_rollback()
 
         delete_transient('aether_recompile_schedule_lock');
 
-        // 4. 取消所有调度任务
+        // 4. Cancel all scheduled tasks
         $next = wp_next_scheduled('aether_recompile_all_pages');
         while ($next) {
             wp_unschedule_event($next, 'aether_recompile_all_pages');
@@ -67,7 +67,7 @@ function aether_emergency_rollback()
 
         wp_clear_scheduled_hook('aether_recompile_all_pages');
 
-        // 5. 清除缓存
+        // 5. Clear cache
         wp_cache_flush();
 
         error_log(sprintf(
@@ -100,10 +100,10 @@ function aether_emergency_rollback()
  */
 function aether_reenable_page_level_css()
 {
-    // 清除回滚状态
+    // Clear rollback status
     delete_option('aether_emergency_rollback_at');
 
-    // 触发整站重编译
+    // Trigger full site recompilation
     wp_schedule_single_event(time(), 'aether_recompile_all_pages', [
         [
             'trigger' => 'reenable_after_rollback',

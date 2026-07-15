@@ -146,7 +146,7 @@ class Aether_Font_Manager_Service
     }
 
     /**
-     * 更新字体设置并下载字体
+     * 更新字体设置并Download font
      * 
      * @param array $settings 字体设置
      * @return bool
@@ -170,7 +170,7 @@ class Aether_Font_Manager_Service
         wp_cache_delete('aether_font_settings', 'options');
         wp_cache_delete('alloptions', 'options');
 
-        // 下载并缓存选中的字体
+        // Download and cache selected fonts
         $instance = new self();
         $fonts_to_download = [];
 
@@ -195,7 +195,7 @@ class Aether_Font_Manager_Service
             ];
         }
 
-        // 下载字体
+        // Download font
         $font_formats = get_option('aether_font_formats', []);
         $download_errors = [];
 

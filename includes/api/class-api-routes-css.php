@@ -41,7 +41,7 @@ class Aether_API_Routes_CSS extends Aether_API_Routes_Base
             'permission_callback' => [$this, 'check_permission']
         ]);
 
-        // 触发整站重编译
+        // Trigger full site recompilation
         $this->register_route('/css/recompile-all', [
             'methods' => 'POST',
             'callback' => [$this, 'trigger_recompile_all'],
@@ -231,7 +231,7 @@ class Aether_API_Routes_CSS extends Aether_API_Routes_Base
     }
 
     /**
-     * 触发整站重编译
+     * Trigger full site recompilation
      */
     public function trigger_recompile_all($request)
     {
@@ -594,7 +594,7 @@ class Aether_API_Routes_CSS extends Aether_API_Routes_Base
             return false;
         }
 
-        // 从设置中获取排除的模板
+        // Get excluded templates from settings
         $excluded_templates = Aether_Settings_Service::get('excluded_templates', array(
             'page-landing.php',
             'template-landing.php',

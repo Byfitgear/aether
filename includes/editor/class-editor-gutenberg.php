@@ -62,7 +62,7 @@ class Aether_Editor_Gutenberg extends Aether_Base {
         $is_aether_edited = get_post_meta($post->ID, '_aether_edited', true);
         
         if ($is_aether_edited) {
-            // 为 Gutenberg 编辑器注入脚本
+            // Inject scripts for Gutenberg editor
             $script = $this->get_gutenberg_override_script($post->ID);
             wp_add_inline_script('wp-edit-post', $script);
         }

@@ -37,7 +37,7 @@ class Aether_Template_Override extends Aether_Base
 		// 使用 WordPress 原生的模板覆盖系统
 		add_filter('template_include', array($this, 'override_template'), 999);
 
-		// 为特定的模板部分提供覆盖
+		// Provide overrides for specific template parts
 		add_action('get_header', array($this, 'maybe_override_header'), 1);
 		add_action('get_footer', array($this, 'maybe_override_footer'), 1);
 		add_action('get_sidebar', array($this, 'maybe_override_sidebar'), 1);
@@ -90,7 +90,7 @@ class Aether_Template_Override extends Aether_Base
 	{
 		$current_template = $this->get_current_page_template();
 		
-		// 从设置中获取排除的模板
+		// Get excluded templates from settings
 		$excluded_templates = Aether_Settings_Service::get('excluded_templates', array(
 			'page-landing.php',
 			'template-landing.php',

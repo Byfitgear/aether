@@ -56,7 +56,7 @@ class Aether_Media_Upload_API {
 
         $original_file = $files['original'];
 
-        // 从 URL query 参数读取 source_format（不是从 body）
+        // Read source_format from URL query params (not from body)
         $source_format = isset($_GET['source_format']) ? sanitize_text_field($_GET['source_format']) : '';
 
         if (defined('WP_DEBUG') && WP_DEBUG) {

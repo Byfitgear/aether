@@ -28,9 +28,9 @@ class Aether_Plugin_Updater {
         $this->plugin_file = AETHER_BASENAME;
         
         // 添加钩子
-        // 仅在 WP 执行更新检查时触发，避免后台常规页面频繁远程请求
+        // Only triggered during WP update checks, avoid frequent remote requests on regular admin pages
         add_filter('pre_set_site_transient_update_plugins', array($this, 'filter_update_transient'));
-        add_filter('plugins_api', array($this, 'plugin_api_call'), 15, 3); // 优先级设为15，让Plugin_Info先处理
+        add_filter('plugins_api', array($this, 'plugin_api_call'), 15, 3); // Set priority to 15, let Plugin_Info process first
 
         // 当 WP 清除更新缓存时（如用户点击"再次检查"），同步清除 aether 缓存
         add_action('delete_site_transient_update_plugins', array($this, 'clear_update_cache'));
@@ -59,7 +59,7 @@ class Aether_Plugin_Updater {
         }
 
         if ($cached !== false && is_array($cached)) {
-            // 仅当远端版本大于本地版本时，才提示更新（兜底保护服务端误报）
+            // Only prompt for update when remote version > local version (fallback protection against server false positives)
             if (!empty($cached['update_available']) && $this->should_update($cached)) {
                 $transient->response[$this->plugin_file] = (object) array(
                     'slug' => $this->plugin_slug,

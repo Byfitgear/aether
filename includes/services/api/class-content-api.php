@@ -93,7 +93,7 @@ class Aether_Content_API {
             }
         } else {
             // 普通文章内容更新
-            // 为了避免 WordPress 的 KSES 过滤删除 script 标签等内容，
+            // To prevent WordPress KSES filter from deleting script tags, etc.,
             // 我们需要暂时提升权限或直接使用 wpdb
             global $wpdb;
             
@@ -132,7 +132,7 @@ class Aether_Content_API {
             update_post_meta($post_id, '_aether_css_encoded', '1');
         }
         
-        // 清除缓存
+        // Clear cache
         clean_post_cache($post_id);
 
         // 触发统一的 aether 内容保存钩子
@@ -200,7 +200,7 @@ class Aether_Content_API {
                 'required' => false,
                 'sanitize_callback' => function($css) {
                     // CSS 需要保留特殊字符，包括反斜杠
-                    // 不使用 wp_strip_all_tags，因为它可能破坏 CSS
+                    // Don't use wp_strip_all_tags as it may break CSS
                     // 只进行最基本的安全检查
                     
                     // 保留原始 CSS，只移除可能的 script 标签

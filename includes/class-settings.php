@@ -9,7 +9,7 @@
 
 defined('ABSPATH') || exit;
 
-// 依赖类通过自动加载器加载
+// Dependent classes loaded via autoloader
 
 /**
  * 设置类
@@ -47,7 +47,7 @@ class Aether_Settings extends Aether_Base {
             return;
         }
         
-        // 使用 Vite 加载器
+        // Use Vite loader
         $vite_loader = Aether_Vite_Loader::getInstance();
         $vite_loader->enqueue('settings');
     }
