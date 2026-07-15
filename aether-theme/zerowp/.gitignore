@@ -1,7 +1,0 @@
-node_modules/
-dist/
-*.zip
-.DS_Store
-*.log
-.env
-.dev-config.php
