@@ -3,7 +3,7 @@
 /**
  * Plugin Name: aether
  * Plugin URI: https://www.aether.app
- * Description: 极简的 WordPress 可视化编辑器，支持纯 HTML 编辑
+ * Description: A minimalist WordPress visual editor with contact form, image optimization, and CSS compilation. No registration required.
  * Version: 1.1.45
  * Author: Aether Team
  * License: GPL v2 or later
